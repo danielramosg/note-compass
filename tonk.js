@@ -1,17 +1,133 @@
 const mod = (x, n) => (x % n + n) % n
 
 
+
+////// Scale Object
+
+
+var pitchNotes = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
+var solfaNotes = ["fa", "do", "so", "re", "la", "mi", "ti", "", "", "", "", "" ];
+var solfaNotesFile = ["Fa", "Do", "So", "Re", "La", "Mi", "Ti", "", "", "", "", "" ]; //for mp3 filenames
+
+
+
+Scale = {
+
+notes : [
+	{	type : "white",
+		sectorSize : 7,
+		sectorColor : "rgb(234,75,53)", //red
+	},
+	{ 	type : "black",
+		sectorSize : 5,
+		sectorColor : "grey",
+	},
+	{ 	type : "white",
+		sectorSize : 7,
+		sectorColor : "rgb(220,104,29)", //orange
+	},
+	{ 	type : "black",
+		sectorSize : 5,
+		sectorColor : "grey",
+	},
+	{ 	type : "white",
+		sectorSize : 7,
+		sectorColor : "rgb(254,207,31)", //yellow
+	},
+	{ 	type : "black",
+		sectorSize : 5,
+		sectorColor : "grey"
+	},
+	{ 	type : "white",
+		sectorSize : 7,
+		sectorColor : "rgb(149,171,96)", //lightgreen
+	},
+	{ 	type : "black",
+		sectorSize : 5,
+		sectorColor : "grey"
+	},
+	{	type : "white",
+		sectorSize : 7,
+		sectorColor : "rgb(72,98,63)", //darkgreen
+	},
+	{	type : "black",
+		sectorSize : 5,
+		sectorColor : "grey"
+	},
+	{ 	type : "white",
+		sectorSize : 7,
+		sectorColor : "rgb(46,85,114)", //navy
+	},
+	{ 	type : "black",
+		sectorSize : 5,
+		sectorColor : "grey"
+	},
+	{ 	type : "white",
+		sectorSize : 7,
+		sectorColor : "rgb(82,112,174)", //blue
+	},
+	{ 	type : "black",
+		sectorSize : 5,
+		sectorColor : "grey"
+		
+	},		
+		],
+
+setValues : function(position){
+			
+			var rootSector= 2*Math.floor(position/12.) + ( position%12 > 6 ? 1 : 0);
+
+			this.notes.forEach(function(d,i){ 
+				d.id = i;
+				if (i%2 == 0) {			//white keys
+					d.active	= true		
+					d.nSolfa 	= mod(i+position,7)
+					d.Solfa 	= solfaNotesFile[d.nSolfa]
+					d.nLiteral 	= mod( i - Math.floor( (i+position)/7. ) , 12 )
+					d.Literal 	= pitchNotes[d.nLiteral]
+					d.midiPitch = 60 + d.nLiteral
+					if (i<rootSector) d.midiPitch -=12;
+		
+					var url = "./SolfedgeSamplesMp3/" + d.midiPitch + '_' + d.Solfa + ".mp3"
+					d.playerSolfa = new Tone.Player({
+						"url" : url,
+						"autostart" : false,
+						}).toMaster();
+					}	
+				else {			//black keys 
+					var normsector = (i+position)/7. 
+					//console.log( i, mod( position + i-1  ,7))
+					if ( mod( position +i-1  ,7) > 4 ){ 
+							d.active	= false
+							d.nLiteral 	= ""
+							d.Literal 	= ""
+							d.midiPitch = ""
+							}
+					else {
+							d.active	= true
+							d.nLiteral 	= mod( i - Math.floor( (i+position)/7. ) , 12 )
+							d.Literal 	= pitchNotes[d.nLiteral]
+							d.midiPitch = 60 + d.nLiteral
+							if (i<rootSector) d.midiPitch -=12;
+					}
+					}	
+				})
+
+			}
+
+
+}
+
+
+
+
+////// Wheel 
+
 var height = 600;
-var width = 800;
+var width = 900;
 
 
-var player = new Tone.Player({
-	"url" : "./SolfedgeSamplesMp3/36_Do.mp3",
-	"autostart" : false,
-}).toMaster();
-
-
-function sectorPath(theta, r, R){
+function sectorPath(theta, r, R){		//returns path for an arc of circle ring
 	var s = Math.sin(theta*Math.PI/180);
 	var c = Math.cos(theta*Math.PI/180);
 	
@@ -23,7 +139,7 @@ function sectorPath(theta, r, R){
 	 		+"A" + r +' '+ r +" 0 0 1 "+r +" 0";
 }
 
-function star12 (radius){
+function star12 (radius){				//returns path for a 12-point star
 	var theta = 360/12 * 7;
 	var points=[];
 
@@ -34,8 +150,6 @@ function star12 (radius){
 		points.push([c,s]);
 		}
 		
-		//console.log(points);
-
 	var lineFunction = d3.line()(points)
               
 		
@@ -46,14 +160,14 @@ var Radius = 299
 
 
 
-svg = d3.select("#applet").append("svg")
-		.attr("width",width)
-		.attr("height",height);
+svg = d3.select("#wheel").select("svg")
+		//.attr("width",width)
+		//.attr("height",height);
 		
 outerWheel = svg.append("g"); //outer
 
 		
-outerWheel.attr("transform", "translate(" + width/2 +','+ height/2 +')' );
+outerWheel.attr("transform", "translate(" + (Radius + 5) +','+ (Radius + 5) +')' );
 
 var stepAngle = 360./84;
 
@@ -63,40 +177,9 @@ outerWheel.append("circle")
 
 
 
-sectors = [
-{"size": 7, "color": "rgb(234,75,53)"}, //red
-{"size": 5, "color": "grey"},
-{"size": 7, "color": "rgb(220,104,29)"}, //orange
-{"size": 5, "color": "grey"},
-{"size": 7, "color": "rgb(254,207,31)"}, //yellow
-{"size": 5, "color": "grey"},
-{"size": 7, "color": "rgb(149,171,96)"}, //lightgreen
-{"size": 5, "color": "grey"},
-{"size": 7, "color": "rgb(72,98,63)"}, //darkgreen
-{"size": 5, "color": "grey"},
-{"size": 7, "color": "rgb(46,85,114)"}, //navy
-{"size": 5, "color": "grey"},
-{"size": 7, "color": "rgb(82,112,174)"}, //blue
-{"size": 5, "color": "grey"},
-]
-
-// RGBColor[234/256, 75/256, 53/256], RGBColor[220/256, 104/256, 29/256],
-//   RGBColor[254/256, 207/256, 31/256], 
-//  RGBColor[149/256, 171/256, 96/256], RGBColor[72/256, 98/256, 63/256],
-//   RGBColor[46/256, 85/256, 114/256], 
-//  RGBColor[82/256, 112/256, 174/256]}
-
-// FontGrau = RGBColor[0.89, 0.89, 0.89]
-
-
-
-
-
-
-
 
 sectorsMark = outerWheel.selectAll(".solfaMark")
-	.data(sectors).enter()
+	.data(Scale.notes).enter()
 	.append("g").attr("class","sectorsMark")
 
 sectorsMark.append("path")
@@ -106,50 +189,23 @@ sectorsMark.append("path")
 									"rotate(-" + 12*stepAngle*(i/2) +')' :
 									"rotate(-" + (stepAngle* (12*((i-1)/2) +7)) +')'  }
 			)
-	.attr("fill",function(d){return d.color})
+	.attr("fill",function(d){return d.sectorColor})
 	.on("mousedown", playStart)
 	.on("mouseup",playStop);
 
 
-function setPlayers(){
-	sectors.forEach(function (d,i) {
-		if (i%2 == 1) {return 0}
-		
-		var solfaSelected = solfaNotesFile[mod(i+position,7)];
 
-		//console.log(solfaSelected);
-		
-		//console.log(Math.floor(position/12.))
-		//console.log(Math.floor(position-7.))
-		//rootSector= 2*Math.floor(position/12.) + ( position%12 > 6 ? 1 : 0)
-
-		var pitchSelected = mod( i - Math.floor( (i+position)/7. ) , 12 )
-		
-		//console.log(pitchNotes[pitchSelected])
-
-		var midiNote = 36+pitchSelected;
-
-		var url = "./SolfedgeSamplesMp3/" + midiNote + '_' + solfaSelected + ".mp3"
-		
-		d.player = new Tone.Player({
-			"url" : url,
-			"autostart" : false,
-			}).toMaster();
-
-	})
-
-
-}
+var synth = new Tone.Synth().toMaster();
 
 
 
 function playStart(d,i){	
-	//console.log(player)
-	d.player.start();
+	d.playerSolfa.start();
+	//synth.triggerAttackRelease(d.Literal+"4", "8n");
 }
 
 function playStop(d){
-	d.player.stop();
+	d.playerSolfa.stop();
 }
 
 solfaMark = outerWheel.selectAll(".solfaMark")
@@ -157,8 +213,6 @@ solfaMark = outerWheel.selectAll(".solfaMark")
 	.append("g").attr("class","solfaMark")
 
 
-var solfaNotes = ["fa", "do", "so", "re", "la", "mi", "ti", "", "", "", "", "" ];
-var solfaNotesFile = ["Fa", "Do", "So", "Re", "La", "Mi", "Ti", "", "", "", "", "" ]; //for mp3 filenames
 
 
 
@@ -179,7 +233,6 @@ solfaMark.attr("transform",function(d,i){return "rotate(-" + stepAngle*(i) +')' 
 
 
 
-var pitchNotes = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
 
 scaleWheel = outerWheel.append("g"); //inner
 
@@ -208,32 +261,18 @@ noteMark.attr("transform",function(d,i){return "rotate(-" + stepAngle*(7*i) +')'
 
 
 			
-			
-// 			.attr("d",sectorPath(20))
-// 				.attr("stroke-width",2).attr("stroke","black").attr("fill", "none");
 
 
 
 var stepAngle = 360./84;
 
-// scaleWheel.selectAll("path")
-// 			.data(d3.range(15)).enter()
-// 			.append("path")
-// 			.attr("stroke-width",2).attr("stroke","black")
-// 			.attr("fill", function(d,i){return (i%2==0)? "white" : "black" })
-// 			.attr("d", function(d,i) {return  i % 2 ==0 ? sectorPath(7*stepAngle,50,150) : sectorPath(5*stepAngle,50,150)	})
-// 			.attr("transform", function(d,i){
-// 							return (i % 2 == 0) ? 
-// 									"rotate(-" + 12*stepAngle*(i/2) +')' :
-// 									"rotate(-" + (stepAngle* (12*((i-1)/2) +7)) +')'  }
-// 				 );
-									
-var position=0;
+var position=1;
 
 
 scaleWheel.attr("transform","rotate("+ (-(position+0.5)*stepAngle) +')');
-setPlayers();
+//setPlayers();
 
+Scale.setValues(position);
 
 //scaleWheel.remove();
 
@@ -247,7 +286,8 @@ setPlayers();
 function rotateScaleWheel(){
 	scaleWheel.transition()
 		.attr("transform","rotate("+ (-(position+0.5)*stepAngle) +')');
-	setPlayers();
+	//setPlayers();
+	Scale.setValues(position)
 
 }
 
@@ -256,35 +296,146 @@ function rotateScaleWheel(){
 			// .transition()
 // 			.attr("transform","rotate("+5*stepAngle+")");
 
+
+
+function updateAll(){
+	rotateScaleWheel()
+	FullScale = Scale.notes.filter(function(d){return d.active})
+	updateKeyboard(FullScale)
+	updateStaff()
+
+}
+
+
 function rotateScaleWheelUp(){
 	position++;
-	rotateScaleWheel()
+	updateAll();	
 }
 
 function rotateScaleWheelDown(){
 	position--;
-	rotateScaleWheel()
+	updateAll();
 }
+
+function resetPosition(){
+	position = 1;
+	updateAll()
+}
+
 
 d3.select("#upButton").on("click", rotateScaleWheelUp );
 d3.select("#downButton").on("click", rotateScaleWheelDown );
 
+d3.select("#upIcon").on("click", rotateScaleWheelUp );
+d3.select("#downIcon").on("click", rotateScaleWheelDown );
+d3.select("#reloadIcon").on("click", resetPosition );
 
 
 
 
 
 
+////// Keyboard
+
+
+WhiteScale = Scale.notes.filter(function(d){return d.type=="white"})
+FullScale = Scale.notes.filter(function(d){return d.active})
+
+function playScale(scale) {
+	now = Tone.now();
+	WhiteScale.forEach(function(d,i) {
+			//console.log(d.Literal+"4")
+			synth.triggerAttackRelease(Tone.Frequency(d.midiPitch,"midi"),"8n", now + 0.5 + 0.25*i ); 
+			//key = svg.selectAll("g")
+			})
+
+			synth.triggerAttackRelease(Tone.Frequency(WhiteScale[0].midiPitch+12,"midi"),"8n", now + 0.5 + 0.25*7 ); 
+
+};
+
+d3.select("#playButton").on("click", playScale );
+d3.select("#playIcon").on("click", playScale );
+
+
+
+svg2 = d3.select("#keyboard").append("svg")
+		.attr("width",width)
+		.attr("height",300);
+
+
+function updateKeyboard(data){
+
+var keys = svg2.selectAll("g").data(data);
+
+//Exit selection			
+	keys.exit()
+			.remove();
+
+	//Enter selection
+	var newKey = keys.enter().append("g");
+
+		
+	newKey.append("rect")
+				.style("stroke-width",2)
+				.style("stroke","black")
+				.on("click",function (d) {synth.triggerAttackRelease(Tone.Frequency(d.midiPitch,"midi"),"8n") } )
+				.on("touchstart",function (d) {synth.triggerAttackRelease(Tone.Frequency(d.midiPitch,"midi"),"8n") } )
+	
+	newKey.append("text")
+				.text(function (d) {return d.Literal})
+				.attr("font-family", "sans-serif")
+	            .attr("font-size", "20px")		
+			
+	newKey.append("path")
+				.style("stroke-width",2)
+				.style("stroke","black")
+				.style("fill","none");
+			
+	// newKey.append("text");	
+								
+		
+	//Update selection			
+	keys = keys.merge(newKey);
+
+		
+	keys.select("rect")
+				.attr("width",function (d) {return d.type=="white" ? 50 : 50 })
+				.attr("height",function (d) {return d.type=="white" ? 250 : 150 })
+				.style("fill",function (d) {return d.type})
+				.attr("x", function(d,i) {return 55* i })
+				.attr("y", 25);
+	
+	keys.select("text")
+				.text(function (d) {return d.Literal})
+				.attr("x", function(d,i) {return 15+ 55* i })
+				.attr("y", 20)	
+
+	
+}
 
 
 
 
+///// staff
+
+function updateStaff () {
+WhiteScale = Scale.notes.filter(function(d){return d.type=="white"})
+
+Literals = WhiteScale.map(function(d) {return d.Literal})
+
+var letters=["F","C","G","D","A","E","B"]
 
 
+letters.forEach(function(k){
+	var sign = d3.select("#sharp-on-"+k)
+	sign.attr("visibility","hidden")
+	if ( Literals.includes(k+"#") ) {  sign.attr("visibility","visible")}
+		else {sign.attr("visibility","hidden")}	
+	})
 
 
+}
 
 
-
-
+updateAll()
 
