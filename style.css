@@ -1,3 +1,11 @@
+body {
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
 .split {
 	width: 50%;
 	position: fixed;
@@ -23,4 +31,8 @@
 	stroke-width: 3;
 	stroke: black;
 	fill: none;
+}
+
+.noteMark {
+	font-size: 24px;
 }

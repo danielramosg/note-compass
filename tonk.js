@@ -1,6 +1,23 @@
 const mod = (x, n) => (x % n + n) % n
 
+TkData =[
+{indices: [0, 36, 72, 24, 60, 12, 48], notes: ['C', 'G', 'D', 'A', 'E', 'B', 'F#'], signature: 1, all_note_names: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'Bb', 'B']},  
+{indices: [49, 1, 37, 73, 25, 61, 13], notes: ['F', 'C', 'G', 'D', 'A', 'E', 'B'], signature: 0, all_note_names: ['C', 'C#', 'D', 'Eb', 'E', 'F', 'F#', 'G', 'G#', 'A', 'Bb', 'B']},  
+{indices: [14, 50, 2, 38, 74, 26, 62], notes: ['Bb', 'F', 'C', 'G', 'D', 'A', 'E'], signature: -1, all_note_names: ['C', 'C#', 'D', 'Eb', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B']}, 
+{indices: [63, 15, 51, 3, 39, 75, 27], notes: ['Eb', 'Bb', 'F', 'C', 'G', 'D', 'A'], signature: -2, all_note_names: ['C', 'Db', 'D', 'Eb', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B']}, 
+{indices: [28, 64, 16, 52, 4, 40, 76], notes: ['Ab', 'Eb', 'Bb', 'F', 'C', 'G', 'D'], signature: -3, all_note_names: ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B']}, 
+{indices: [77, 29, 65, 17, 53, 5, 41], notes: ['Db', 'Ab', 'Eb', 'Bb', 'F', 'C', 'G'], signature: -4, all_note_names: ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'Cb']}, 
+{indices: [42, 78, 30, 66, 18, 54, 6], notes: ['Gb', 'Db', 'Ab', 'Eb', 'Bb', 'F', 'C'], signature: -5, all_note_names: ['C', 'Db', 'D', 'Eb', 'Fb', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'Cb']}, 
+{indices: [7, 43, 79, 31, 67, 19, 55], notes: ['B', 'F#', 'C#', 'G#', 'D#', 'A#', 'E#'], signature: 6, all_note_names: ['B#', 'C#', 'Cx', 'D#', 'E', 'E#', 'F#', 'Fx', 'G#', 'A', 'A#', 'B']}, 
+{indices: [56, 8, 44, 80, 32, 68, 20], notes: ['E', 'B', 'F#', 'C#', 'G#', 'D#', 'A#'], signature: 5, all_note_names: ['B#', 'C#', 'D', 'D#', 'E', 'E#', 'F#', 'Fx', 'G#', 'A', 'A#', 'B']}, 
+{indices: [21, 57, 9, 45, 81, 33, 69], notes: ['A', 'E', 'B', 'F#', 'C#', 'G#', 'D#'], signature: 4, all_note_names: ['B#', 'C#', 'D', 'D#', 'E', 'E#', 'F#', 'G', 'G#', 'A', 'A#', 'B']}, 
+{indices: [70, 22, 58, 10, 46, 82, 34], notes: ['D', 'A', 'E', 'B', 'F#', 'C#', 'G#'], signature: 3, all_note_names: ['C', 'C#', 'D', 'D#', 'E', 'E#', 'F#', 'G', 'G#', 'A', 'A#', 'B']}, 
+{indices: [35, 71, 23, 59, 11, 47, 83], notes: ['G', 'D', 'A', 'E', 'B', 'F#', 'C#'], signature: 2, all_note_names: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']}
+];
 
+
+
+mode = TkData[1]
 
 ////// Scale Object
 
@@ -74,7 +91,8 @@ notes : [
 		],
 
 setValues : function(position){
-			
+			var pitchNotes = mode.all_note_names;
+
 			var rootSector= 2*Math.floor(position/12.) + ( position%12 > 6 ? 1 : 0);
 
 			this.notes.forEach(function(d,i){ 
@@ -139,22 +157,7 @@ function sectorPath(theta, r, R){		//returns path for an arc of circle ring
 	 		+"A" + r +' '+ r +" 0 0 1 "+r +" 0";
 }
 
-function star12 (radius){				//returns path for a 12-point star
-	var theta = 360/12 * 7;
-	var points=[];
 
-	for (var i=0; i<12; i++) {
-		var s = radius*Math.sin(i*theta*Math.PI/180);
-		var c = radius*Math.cos(i*theta*Math.PI/180);
-		//points.push({'x':c,'y':s});
-		points.push([c,s]);
-		}
-		
-	var lineFunction = d3.line()(points)
-              
-		
-	return lineFunction + 'Z';
-}
 
 var Radius = 299 
 
@@ -238,35 +241,97 @@ scaleWheel = outerWheel.append("g"); //inner
 
 
 
-scaleWheel.append("path")
-			.attr("stroke-width",2).attr("stroke","green")
-			.attr("d",star12(0.75*Radius))
+function star12 (radius){				//returns path for a 12-point star
+	var theta = 360/12 * 7;
+	var points=[];
+
+	for (var i=0; i<12; i++) {
+		var s = radius*Math.sin(i*theta*Math.PI/180);
+		var c = radius*Math.cos(i*theta*Math.PI/180);
+		//points.push({'x':c,'y':s});
+		points.push([c,s]);
+		}
+		
+	var lineFunction = d3.line()(points)
+              
+		
+	return lineFunction + 'Z';
+}
+
+Star = scaleWheel.append("g")
 			.attr("class","star");
 
-noteMark = scaleWheel.selectAll(".noteMark")
-	.data(pitchNotes).enter()
-	.append("g").attr("class","noteMark")
+			//.attr("d",star12(0.75*Radius))
+
+
+function updateStar(){
+	var radius = 0.75*Radius;
+	var theta = 360/12 * 7;
+
+		var points=[];
+
+		for (var i=0; i<12; i++) {
+			var s = radius*Math.sin(i*theta*Math.PI/180);
+			var c = radius*Math.cos(i*theta*Math.PI/180);
+			points.push([c,s]);
+			}
+
+		for (var i=0; i<12; i++) {
+			var line=Star.append("line")
+						.attr("x1",points[mod(i,12)][0])
+						.attr("y1",points[mod(i,12)][1])
+						.attr("x2",points[mod(i+1,12)][0])
+						.attr("y2",points[mod(i+1,12)][1])
+
+			// if ( mode.notes.includes(mode.all_note_names[mod(5*i,12)]) && mode.notes.includes(mode.all_note_names[mod(5*(i+1),12)]) ) {
+			// 	console.log(mode.all_note_names[mod(5*i,12)]);
+			// 	line.style("stroke","white") 
+			// 	}
+
+			}
+
+}
+
+
+updateStar()
+
+
+
+function updateStarText(data){
+	//console.log(data)
+
+	var noteMark = scaleWheel.selectAll(".noteMark").data(data);
+
+	var newNoteMark = noteMark.enter()
+		.append("g").attr("class","noteMark")
+		
+	newNoteMark.append("text");
 	
-// noteMark.append("path")	
-// 	.attr("d","M200 0 L160 0")
-// 	.attr("class","wheel");
+	noteMark = noteMark.merge(newNoteMark)
 
-noteMark.append("text")
-	.attr("x",150)
-	.attr("y",0)
-	.text(function(d){return d})
-	.attr("transform",function(d,i){return "rotate(2)" } );
+	//console.log(noteMark)
 
-noteMark.attr("transform",function(d,i){return "rotate(-" + stepAngle*(7*i) +')' } );
+	noteMark.select("text").text(function(d){return d})
+		.attr("x",140)
+		.attr("y",0)
+		.attr("transform",function(d,i){return "rotate(2)" } );
 
+	noteMark.attr("transform",function(d,i){return "rotate(-" + stepAngle*(7*i) +')' } );
 
+}
 			
+
+
+
+
+
 
 
 
 var stepAngle = 360./84;
 
 var position=1;
+var mode = TkData.filter(function(m){return m.indices.includes(mod(position,84)) } )[0]
 
 
 scaleWheel.attr("transform","rotate("+ (-(position+0.5)*stepAngle) +')');
@@ -299,11 +364,15 @@ function rotateScaleWheel(){
 
 
 function updateAll(){
+	mode = TkData.filter(function(m) {return m.indices.includes(mod(position,84)) } )[0]
+
 	rotateScaleWheel()
 	FullScale = Scale.notes.filter(function(d){return d.active})
-	updateKeyboard(FullScale)
-	updateStaff()
+	//updateKeyboard(FullScale)
 
+	updateStarText(mode.all_note_names)
+	updateKeyboard(WhiteScale)
+	updateStaff()
 }
 
 
@@ -401,7 +470,7 @@ var keys = svg2.selectAll("g").data(data);
 	keys.select("rect")
 				.attr("width",function (d) {return d.type=="white" ? 50 : 50 })
 				.attr("height",function (d) {return d.type=="white" ? 250 : 150 })
-				.style("fill",function (d) {return d.type})
+				.style("fill",function (d) {return d.sectorColor})
 				.attr("x", function(d,i) {return 55* i })
 				.attr("y", 25);
 	
@@ -418,24 +487,55 @@ var keys = svg2.selectAll("g").data(data);
 
 ///// staff
 
+// function updateStaff () {
+// WhiteScale = Scale.notes.filter(function(d){return d.type=="white"})
+
+// Literals = WhiteScale.map(function(d) {return d.Literal})
+
+// var letters=["F","C","G","D","A","E","B"]
+
+// letters.forEach(function(k){
+// 	var sign = d3.select("#sharp-on-"+k)
+// 	sign.attr("visibility","hidden")
+// 	if ( Literals.includes(k+"#") ) {  sign.attr("visibility","visible")}
+// 		else {sign.attr("visibility","hidden")}	
+// 	})
+// }
+
+
+Signatures ={}
+Signatures[-5]={flats: ['B','E','A','D','G'], sharps: []}
+Signatures[-4]={flats: ['B','E','A','D'], sharps: []}
+Signatures[-3]={flats: ['B','E','A'], sharps: []}
+Signatures[-2]={flats: ['B','E'], sharps: []}
+Signatures[-1]={flats: ['B'], sharps: []}
+Signatures[0]={flats: [], sharps: []}
+Signatures[1]={flats: [], sharps: ['F']}
+Signatures[2]={flats: [], sharps: ['F','C']}
+Signatures[3]={flats: [], sharps: ['F','C','G']}
+Signatures[4]={flats: [], sharps: ['F','C','G','D']}
+Signatures[5]={flats: [], sharps: ['F','C','G','D','A']}
+Signatures[6]={flats: [], sharps: ['F','C','G','D','A','E']}
+
+
 function updateStaff () {
-WhiteScale = Scale.notes.filter(function(d){return d.type=="white"})
+//var mode = TkData.filter(function(m){return m.indices.includes(position)})[0]
+//console.log(position)
+//console.log("signature: ", mode.signature)
 
-Literals = WhiteScale.map(function(d) {return d.Literal})
+	var letters = ['A','B','C','D','E','F','G']
+	letters.forEach(function(k){
+		var sign = d3.select("#sharp-on-"+k)
+		sign.attr("visibility","hidden")
+		if (Signatures[mode.signature].sharps.includes(k))  {sign.attr("visibility","visible")}
+		
+		var sign = d3.select("#flat-on-"+k)
+		sign.attr("visibility","hidden")
+		if (Signatures[mode.signature].flats.includes(k))  {sign.attr("visibility","visible")}
 
-var letters=["F","C","G","D","A","E","B"]
-
-
-letters.forEach(function(k){
-	var sign = d3.select("#sharp-on-"+k)
-	sign.attr("visibility","hidden")
-	if ( Literals.includes(k+"#") ) {  sign.attr("visibility","visible")}
-		else {sign.attr("visibility","hidden")}	
 	})
 
-
 }
-
 
 updateAll()
 
