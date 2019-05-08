@@ -149,14 +149,20 @@ function sectorPath(theta, r, R){		//returns path for an arc of circle ring
 	var s = Math.sin(theta*Math.PI/180);
 	var c = Math.cos(theta*Math.PI/180);
 	
-	//return "M 50 0 L 100 0"
+	 //	//counterclockwise
+	 // return "M"+ r +" 0 "   
+	 // 		+"L"+ R +" 0 "
+	 // 		+"A"+ R +' '+ R +" 0 0 0 "+ R*c +' '+ -R*s 
+	 // 		+" L"+ r*c +' '+ -r*s 
+	 // 		+"A" + r +' '+ r +" 0 0 1 "+r +" 0";
+
+	 // clockwise
 	 return "M"+ r +" 0 "
 	 		+"L"+ R +" 0 "
-	 		+"A"+ R +' '+ R +" 0 0 0 "+ R*c +' '+ -R*s 
-	 		+" L"+ r*c +' '+ -r*s 
-	 		+"A" + r +' '+ r +" 0 0 1 "+r +" 0";
+	 		+"A"+ R +' '+ R +" 0 0 1 "+ R*c +' '+ R*s 
+	 		+" L"+ r*c +' '+ r*s 
+	 		+"A" + r +' '+ r +" 0 0 0 "+r +" 0";
 }
-
 
 
 var Radius = 299 
@@ -167,6 +173,8 @@ svg = d3.select("#wheel").select("svg")
 		//.attr("width",width)
 		//.attr("height",height);
 		
+
+
 outerWheel = svg.append("g"); //outer
 
 		
@@ -185,18 +193,21 @@ sectorsMark = outerWheel.selectAll(".solfaMark")
 	.data(Scale.notes).enter()
 	.append("g").attr("class","sectorsMark")
 
-sectorsMark.append("path")
-	.attr("d",function(d,i) {return  i % 2 ==0 ? sectorPath(7*stepAngle,0,Radius) : sectorPath(5*stepAngle,0,Radius)	})
-	.attr("transform",function(d,i){
-							return (i % 2 == 0) ? 
-									"rotate(-" + 12*stepAngle*(i/2) +')' :
-									"rotate(-" + (stepAngle* (12*((i-1)/2) +7)) +')'  }
-			)
-	.attr("fill",function(d){return d.sectorColor})
-	.on("mousedown", playStart)
-	.on("mouseup",playStop);
+
+sectorsMark.append("g") //Sectors
+	.append("path")
+		.attr("d",function(d,i) {return  i % 2 ==0 ? sectorPath(7*stepAngle,0,Radius) : sectorPath(5*stepAngle,0,Radius)	})
+		.attr("fill",function(d){return d.sectorColor})
+		.on("mousedown", playStart)
+		.on("mouseup",playStop);
+	
 
 
+sectorsMark.attr("transform",function(d,i){
+				return (i % 2 == 0) ? 
+								"rotate(" + (-90+12*stepAngle*(i/2)) +')' :
+								"rotate(" + (-90+stepAngle* (12*((i-1)/2) +7)) +')'  }
+		)
 
 var synth = new Tone.Synth().toMaster();
 
@@ -211,13 +222,10 @@ function playStop(d){
 	d.playerSolfa.stop();
 }
 
+
 solfaMark = outerWheel.selectAll(".solfaMark")
 	.data(d3.range(84)).enter()
 	.append("g").attr("class","solfaMark")
-
-
-
-
 
 solfaMark.append("text")	
 	.attr("x",240)
@@ -230,7 +238,7 @@ solfaMark.append("line")
 	.attr("x2",270).attr("y2",0)
 	.attr("class","wheel");	
 
-solfaMark.attr("transform",function(d,i){return "rotate(-" + stepAngle*(i) +')' } );
+solfaMark.attr("transform",function(d,i){return "rotate(" + (-90+stepAngle*(i+1)) +')' } );
 
 
 
@@ -239,24 +247,6 @@ solfaMark.attr("transform",function(d,i){return "rotate(-" + stepAngle*(i) +')' 
 
 scaleWheel = outerWheel.append("g"); //inner
 
-
-
-function star12 (radius){				//returns path for a 12-point star
-	var theta = 360/12 * 7;
-	var points=[];
-
-	for (var i=0; i<12; i++) {
-		var s = radius*Math.sin(i*theta*Math.PI/180);
-		var c = radius*Math.cos(i*theta*Math.PI/180);
-		//points.push({'x':c,'y':s});
-		points.push([c,s]);
-		}
-		
-	var lineFunction = d3.line()(points)
-              
-		
-	return lineFunction + 'Z';
-}
 
 Star = scaleWheel.append("g")
 			.attr("class","star");
@@ -316,7 +306,7 @@ function updateStarText(data){
 		.attr("y",0)
 		.attr("transform",function(d,i){return "rotate(2)" } );
 
-	noteMark.attr("transform",function(d,i){return "rotate(-" + stepAngle*(7*i) +')' } );
+	noteMark.attr("transform",function(d,i){return "rotate(" + (-90+stepAngle*(7*i)) +')' } );
 
 }
 			
@@ -334,7 +324,7 @@ var position=1;
 var mode = TkData.filter(function(m){return m.indices.includes(mod(position,84)) } )[0]
 
 
-scaleWheel.attr("transform","rotate("+ (-(position+0.5)*stepAngle) +')');
+scaleWheel.attr("transform","rotate("+ ((position+0.5)*stepAngle) +')');
 //setPlayers();
 
 Scale.setValues(position);
@@ -350,7 +340,7 @@ Scale.setValues(position);
 
 function rotateScaleWheel(){
 	scaleWheel.transition()
-		.attr("transform","rotate("+ (-(position+0.5)*stepAngle) +')');
+		.attr("transform","rotate("+ ((position+0.5)*stepAngle) +')');
 	//setPlayers();
 	Scale.setValues(position)
 
@@ -377,12 +367,12 @@ function updateAll(){
 
 
 function rotateScaleWheelUp(){
-	position++;
+	position--;
 	updateAll();	
 }
 
 function rotateScaleWheelDown(){
-	position--;
+	position++;
 	updateAll();
 }
 
@@ -469,7 +459,7 @@ var keys = svg2.selectAll("g").data(data);
 		
 	keys.select("rect")
 				.attr("width",function (d) {return d.type=="white" ? 50 : 50 })
-				.attr("height",function (d) {return d.type=="white" ? 250 : 150 })
+				.attr("height",function (d) {return d.type=="white" ? 150 : 50 })
 				.style("fill",function (d) {return d.sectorColor})
 				.attr("x", function(d,i) {return 55* i })
 				.attr("y", 25);
