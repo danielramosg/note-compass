@@ -1,30 +1,48 @@
+@font-face {
+  font-family: 'Maestro';
+  src: url('fonts/Maestro.ttf');
+}
+
 body {
 	-moz-user-select: none;
 	-khtml-user-select: none;
 	-webkit-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+
+	font-family: "Palatino";
+	font-weight: bold;
 }
 
+
 .split {
-	width: 50%;
+	width: 48%;
 	position: fixed;
-	top: 0;
+	top: 5%;
 	}
 	
 .left {
-    left: 0;
+    left: 10px;
 }
 
 .right {
-    right: 0;
+    right: 10px;
 }	
 
+#wheel{
+	text-align: center;
+}
 
 .wheel {
 	stroke-width: 2;
 	stroke: black;
 	fill: none;
+}
+
+.solfaTick {
+	stroke-width: 2;
+	stroke: black;
+
 }
 
 .star {
@@ -36,3 +54,44 @@ body {
 .noteMark {
 	font-size: 24px;
 }
+
+#staff,  #keyboard{
+text-align: center;
+}
+
+#modeLabel {
+	text-align: center;
+	font-size: 40px;
+	height: 100px;
+}
+
+
+.scaleNumbers{
+font-family: Maestro;
+font-size: 40px;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

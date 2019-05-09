@@ -26,7 +26,15 @@ var pitchNotes = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
 var solfaNotes = ["fa", "do", "so", "re", "la", "mi", "ti", "", "", "", "", "" ];
 var solfaNotesFile = ["Fa", "Do", "So", "Re", "La", "Mi", "Ti", "", "", "", "", "" ]; //for mp3 filenames
 
-
+var modeNames = [
+{name:"lydian", color:"black", fullname:"Lydian"},
+{name:"ionian", color:"white", fullname:"Ionian"},
+{name:"mixolyd.", color:"black", fullname:"Mixolydian"},
+{name:"dorian", color:"black", fullname:"Dorian"},
+{name:"aeolian", color:"white", fullname:"Aeolian"},
+{name:"phrygian", color:"black", fullname:"Phrygian"},
+{name:"locrian", color:"grey", fullname:"Locrian"}
+];
 
 Scale = {
 
@@ -137,6 +145,11 @@ setValues : function(position){
 }
 
 
+function updateModeLabel(){
+	var note = Scale.notes[0].Literal
+	var mode = modeNames[mod(position,7)].fullname
+	d3.select("#modeLabel").text(note+ ' - ' +mode);
+}
 
 
 ////// Wheel 
@@ -165,7 +178,7 @@ function sectorPath(theta, r, R){		//returns path for an arc of circle ring
 }
 
 
-var Radius = 299 
+var Radius = 340; 
 
 
 
@@ -200,7 +213,34 @@ sectorsMark.append("g") //Sectors
 		.attr("fill",function(d){return d.sectorColor})
 		.on("mousedown", playStart)
 		.on("mouseup",playStop);
-	
+
+sectorsMark.filter(function(d,i) {return i==0} )
+	.append("g")		
+	.selectAll(".modeName")
+	.data(modeNames).enter()
+	.append("text").text(function(d,i){return d.name })
+	.attr("fill",function(d,i){return d.color })
+	.attr("x",Radius-3)
+	.attr("text-anchor","end")
+	.attr("transform",function(d,i){return "rotate(" + ((i+1)*stepAngle-1) +')' });
+
+
+sectorsMark.filter(function(d,i) {return i==0} )
+	.selectAll(".solfaTick").data(d3.range(8)).enter()
+	.append("line")
+	.attr("x1",220).attr("y1",0)
+	.attr("x2",Radius).attr("y2",0)
+	.attr("class","solfaTick")
+	.attr("transform",function(d,i){return "rotate(" + (i*stepAngle) +')' });
+;	
+
+
+sectorsMark.filter(function(d,i) {return (i % 2 == 0 && i>0) } ) // scale numbers
+	.append("text").text(function(d,i){return (i+2) })
+	.attr("x",Radius*0.92)
+	.attr("text-anchor","end")
+	.attr("transform", "rotate(" + (3.5*stepAngle+2.5) +')' )
+	.attr("class","scaleNumbers")
 
 
 sectorsMark.attr("transform",function(d,i){
@@ -255,7 +295,7 @@ Star = scaleWheel.append("g")
 
 
 function updateStar(){
-	var radius = 0.75*Radius;
+	var radius = 225;
 	var theta = 360/12 * 7;
 
 		var points=[];
@@ -363,6 +403,7 @@ function updateAll(){
 	updateStarText(mode.all_note_names)
 	updateKeyboard(WhiteScale)
 	updateStaff()
+	updateModeLabel()
 }
 
 
@@ -418,7 +459,7 @@ d3.select("#playIcon").on("click", playScale );
 
 
 svg2 = d3.select("#keyboard").append("svg")
-		.attr("width",width)
+		.attr("width",400)
 		.attr("height",300);
 
 
