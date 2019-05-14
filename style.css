@@ -12,25 +12,37 @@ body {
 
 	font-family: "Palatino";
 	font-weight: bold;
+	font-size: 14px;
+
 }
 
 
 .split {
-	width: 48%;
 	position: fixed;
-	top: 5%;
+	top: 10px;
 	}
 	
 .left {
-    left: 10px;
+    left: 0px;
+    width: 75%;
 }
 
 .right {
-    right: 10px;
+    right: 0px;
+    width: 35%
 }	
+
+.bottom {
+	position:fixed;
+	left:10px;
+	bottom: 0;
+}
+
+
 
 #wheel{
 	text-align: center;
+	height: 60%
 }
 
 .wheel {
@@ -52,7 +64,8 @@ body {
 }
 
 .noteMark {
-	font-size: 24px;
+	font-size: 25px;
+	font-weight: bold;
 }
 
 #staff,  #keyboard{
@@ -64,15 +77,36 @@ text-align: center;
 	font-size: 40px;
 	height: 100px;
 }
-
-
-.scaleNumbers{
-font-family: Maestro;
-font-size: 40px;
-
+#modeText {
+	font-size: 18px;
 }
 
 
+.scaleNumbers{
+	font-family: Maestro;
+	font-size: 40px;
+}
+
+.key-Literal, .key-Solfa {
+	font-size: 23px;
+}
+
+.key-Ordinal {
+	font-family: Maestro;
+	font-size: 40px;
+}
+
+.score {
+stroke-width: 0.5px;
+font-weight: normal;
+}
+
+.scoreText, #test{
+	stroke-width: 1px;
+	font-family: Maestro;
+	font-size: 15px;
+	fill: black;
+}
 
 
 
