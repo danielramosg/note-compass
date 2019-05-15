@@ -10,6 +10,9 @@ body {
 	-ms-user-select: none;
 	user-select: none;
 
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+
+
 	font-family: "Palatino";
 	font-weight: bold;
 	font-size: 14px;

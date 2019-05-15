@@ -140,24 +140,16 @@ setValues : function(position){
 					//if (i<rootSector) d.midiPitch -=12;
 
 					//console.log(d.nLiteral , d.midiPitch)
-		
-					var url = "./SolfedgeSamplesMp3/" + d.midiPitch + '_' + d.Solfa + ".mp3"
-					d.playerSolfa = new Tone.Player({
-						"url" : url,
-						"autostart" : false,
-						}).toMaster();
+					d.playerSolfa =[];
 
-					var url2 = "./SolfedgeSamplesMp3/" + (d.midiPitch +12) + '_' + d.Solfa + ".mp3"
-					d.playerSolfa2 = new Tone.Player({
-						"url" : url2,
-						"autostart" : false,
-						}).toMaster();
+					for (var j=0; j<3;j++) {
+						var url = "./SolfedgeSamplesMp3/" + (d.midiPitch + 12*j) + '_' + d.Solfa + ".mp3"
+						d.playerSolfa[j] = new Tone.Player({
+							"url" : url,
+							"autostart" : false,
+							}).toMaster();
+					}
 
-					var url3 = "./SolfedgeSamplesMp3/" + (d.midiPitch+24) + '_' + d.Solfa + ".mp3"
-					d.playerSolfa3 = new Tone.Player({
-						"url" : url3,
-						"autostart" : false,
-						}).toMaster();
 
 
 					}	
@@ -422,13 +414,13 @@ function updateStarText(data){
 
 
 
-function playStart(d,i){	
-	d.playerSolfa.start();
+function playStart(d,j){	
+	d.playerSolfa[j].start();
 	//synth.triggerAttackRelease(d.Literal+"4", "8n");
 }
 
-function playStop(d){
-	d.playerSolfa.stop();
+function playStop(d,j){
+	d.playerSolfa[j].stop();
 }
 
 
@@ -563,8 +555,10 @@ var keys = svg2.selectAll("g").data(data);
 					.attr("class","oct1" )
 					.style("stroke-width",1)
 					.style("stroke","black")
-					.on("click",function (d) {synth.triggerAttackRelease(Tone.Frequency( (d.midiPitch ) ,"midi"),"8n") } )
-					.on("touchstart",function (d) {synth.triggerAttackRelease(Tone.Frequency( (d.midiPitch ),"midi"),"8n") } )
+					//.on("click",function (d) {synth.triggerAttackRelease(Tone.Frequency( (d.midiPitch ) ,"midi"),"8n") } )
+					//.on("touchstart",function (d) {synth.triggerAttackRelease(Tone.Frequency( (d.midiPitch ),"midi"),"8n") } )
+					.on("touchstart", function(d) {playStart(d,0) } )
+					.on("touchend", function(d) {playStop(d,0) } )
 					.attr("width",function (d) {return d.type=="white" ? 46 : 50 })
 					.attr("height",function (d) {return d.type=="white" ? 150 : 50 })
 					.style("fill",function (d) {return d.sectorColor})
@@ -575,8 +569,10 @@ var keys = svg2.selectAll("g").data(data);
 					.attr("class","oct2")
 					.style("stroke-width",1)
 					.style("stroke","black")
-					.on("click",function (d) {synth.triggerAttackRelease(Tone.Frequency(d.midiPitch + 12,"midi"),"8n") } )
-					.on("touchstart",function (d) {synth.triggerAttackRelease(Tone.Frequency(d.midiPitch + 12,"midi"),"8n") } )
+					//.on("click",function (d) {synth.triggerAttackRelease(Tone.Frequency(d.midiPitch + 12,"midi"),"8n") } )
+					//.on("touchstart",function (d) {synth.triggerAttackRelease(Tone.Frequency(d.midiPitch + 12,"midi"),"8n") } )
+					.on("touchstart", function(d) {playStart(d,1) } )
+					.on("touchend", function(d) {playStop(d,1) } )
 					.attr("width",function (d) {return d.type=="white" ? 46 : 50 })
 					.attr("height",function (d) {return d.type=="white" ? 150 : 50 })
 					.style("fill",function (d) {return d.sectorColor})
@@ -588,8 +584,10 @@ var keys = svg2.selectAll("g").data(data);
 					.style("stroke-width",1)
 					.style("stroke","black")
 					.datum(data[0])
-					.on("click",function (d) {synth.triggerAttackRelease(Tone.Frequency(d.midiPitch + 24,"midi"),"8n") } )
-					.on("touchstart",function (d) {synth.triggerAttackRelease(Tone.Frequency(d.midiPitch + 24,"midi"),"8n") } )
+					//.on("click",function (d) {synth.triggerAttackRelease(Tone.Frequency(d.midiPitch + 24,"midi"),"8n") } )
+					//.on("touchstart",function (d) {synth.triggerAttackRelease(Tone.Frequency(d.midiPitch + 24,"midi"),"8n") } )
+					.on("touchstart", function(d) {playStart(d,2) } )
+					.on("touchend", function(d) {playStop(d,2) } )
 					.attr("width",46)
 					.attr("height",150)
 					.style("fill",data[0].sectorColor)
@@ -787,7 +785,7 @@ function updateStaff () {
 updateAll()
 
 
-
+console.log("Here I am")
 
 
 
