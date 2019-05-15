@@ -133,7 +133,7 @@ setValues : function(position){
 					d.nLiteral 	= mod( i - Math.floor( (i+position)/7. ) , 12 )
 					//d.nLiteral = scale[i/2]
 					d.Literal 	= pitchNotes[d.nLiteral]
-					d.midiPitch = 50 + d.nLiteral
+					d.midiPitch = 36 + d.nLiteral
 
 					if (i==0) basePitch = d.midiPitch
 					if (d.midiPitch < basePitch) {d.midiPitch+=12}
@@ -146,6 +146,20 @@ setValues : function(position){
 						"url" : url,
 						"autostart" : false,
 						}).toMaster();
+
+					var url2 = "./SolfedgeSamplesMp3/" + (d.midiPitch +12) + '_' + d.Solfa + ".mp3"
+					d.playerSolfa2 = new Tone.Player({
+						"url" : url2,
+						"autostart" : false,
+						}).toMaster();
+
+					var url3 = "./SolfedgeSamplesMp3/" + (d.midiPitch+24) + '_' + d.Solfa + ".mp3"
+					d.playerSolfa3 = new Tone.Player({
+						"url" : url3,
+						"autostart" : false,
+						}).toMaster();
+
+
 					}	
 				else {			//black keys 
 					var normsector = (i+position)/7. 
@@ -276,7 +290,7 @@ sectorsMark.filter(function(d,i) {return i==0} ) //Tick lines for Mode names
 
 sectorsMark.filter(function(d,i) {return (i % 2 == 0 && i>0) } ) // scale numbers
 	.append("text").text(function(d,i){return (i+2) })
-	.attr("x",Radius*0.92)
+	.attr("x",Radius*0.95)
 	.attr("text-anchor","end")
 	.attr("transform", "rotate(" + (3.5*stepAngle) +')' )
 	.attr("class","scaleNumbers")
@@ -524,7 +538,7 @@ d3.select("#playIcon").on("click", playScale );
 
 
 svg2 = d3.select("#keyboard").append("svg")
-		.attr("width",631)
+		.attr("width",678)
 		.attr("height",150);
 
 
@@ -547,7 +561,7 @@ var keys = svg2.selectAll("g").data(data);
 		
 		newKey.append("rect") 
 					.attr("class","oct1" )
-					.style("stroke-width",2)
+					.style("stroke-width",1)
 					.style("stroke","black")
 					.on("click",function (d) {synth.triggerAttackRelease(Tone.Frequency( (d.midiPitch ) ,"midi"),"8n") } )
 					.on("touchstart",function (d) {synth.triggerAttackRelease(Tone.Frequency( (d.midiPitch ),"midi"),"8n") } )
@@ -559,7 +573,7 @@ var keys = svg2.selectAll("g").data(data);
 		
 		newKey.append("rect") 
 					.attr("class","oct2")
-					.style("stroke-width",2)
+					.style("stroke-width",1)
 					.style("stroke","black")
 					.on("click",function (d) {synth.triggerAttackRelease(Tone.Frequency(d.midiPitch + 12,"midi"),"8n") } )
 					.on("touchstart",function (d) {synth.triggerAttackRelease(Tone.Frequency(d.midiPitch + 12,"midi"),"8n") } )
@@ -567,7 +581,20 @@ var keys = svg2.selectAll("g").data(data);
 					.attr("height",function (d) {return d.type=="white" ? 150 : 50 })
 					.style("fill",function (d) {return d.sectorColor})
 					.attr("x", function(d,i) {return 45* (i + 7) })
-					.attr("y", 0);			
+					.attr("y", 0);	
+
+		newKey.append("rect") 
+					.attr("class","note15")
+					.style("stroke-width",1)
+					.style("stroke","black")
+					.datum(data[0])
+					.on("click",function (d) {synth.triggerAttackRelease(Tone.Frequency(d.midiPitch + 24,"midi"),"8n") } )
+					.on("touchstart",function (d) {synth.triggerAttackRelease(Tone.Frequency(d.midiPitch + 24,"midi"),"8n") } )
+					.attr("width",46)
+					.attr("height",150)
+					.style("fill",data[0].sectorColor)
+					.attr("x", 45 * 14 )
+					.attr("y", 0);							
 		
 		newKey.append("text")
 					.attr("class","key-Ordinal")
@@ -581,7 +608,16 @@ var keys = svg2.selectAll("g").data(data);
 					.attr("text-anchor","middle")
 					.text(function (d) {return (d.id/2 + 1) })
 					.attr("x", function(d,i) {return 22+ 45* (i + 7) })
-					.attr("y", 20)	
+					.attr("y", 20)
+
+		newKey.append("text")
+					.attr("class","key-Ordinal")
+					.attr("text-anchor","middle")
+					.datum(data[0])
+					.text(function (d) {return (d.id/2 + 1) })
+					.attr("x", function(d,i) {return 22+ 45* (7 + 7) })
+					.attr("y", 20)
+
 
 		newKey.append("text")
 					.attr("class","key-Literal")
@@ -595,7 +631,15 @@ var keys = svg2.selectAll("g").data(data);
 					.attr("text-anchor","middle")
 					.text(function (d) {return d.Literal})
 					.attr("x", function(d,i) {return 22+ 45* (i + 7) })
-					.attr("y", 55)					
+					.attr("y", 55)
+
+		newKey.append("text")
+					.attr("class","key-Literal")
+					.attr("text-anchor","middle")
+					.datum(data[0])
+					.text(function (d) {return d.Literal})
+					.attr("x", function(d,i) {return 22+ 45* (7 + 7) })
+					.attr("y", 55)										
 		
 		newKey.append("text")
 					.attr("class","key-Solfa")
@@ -610,6 +654,14 @@ var keys = svg2.selectAll("g").data(data);
 					.text(function (d) {return d.Solfa})
 					.attr("x", function(d,i) {return 22+ 45* (i + 7) })
 					.attr("y", 80)	
+
+		newKey.append("text")
+					.attr("class","key-Solfa")
+					.attr("text-anchor","middle")
+					.datum(data[0])
+					.text(function (d) {return d.Solfa})
+					.attr("x", function(d,i) {return 22+ 45* (7 + 7) })
+					.attr("y", 80)				
 
 
 	
@@ -652,8 +704,8 @@ JZZ.synth.Tiny.register();
 
 piano = JZZ.input.Kbd(
 		{at:'piano',
-		from: 'C4',
-		to: 'B5',
+		from: 'C3',
+		to: 'C5',
 		ww: 45,
 		wl: 150,
 		}
@@ -667,8 +719,10 @@ function updatePiano(){
 
 	Scale.notes.forEach(function(d,i){
 		if (d.type == "white") {	
-			piano.getKey(d.Literal+'4').setStyle({ backgroundColor: d.sectorColor}, {});
+			piano.getKey(d.Literal+'3').setStyle({ backgroundColor: d.sectorColor}, {});
+			piano.getKey(d.Literal+'4').setStyle({ backgroundColor: d.sectorColor }, { });
 			piano.getKey(d.Literal+'5').setStyle({ backgroundColor: d.sectorColor }, { });
+
 		}
 	})
 }
@@ -727,6 +781,8 @@ function updateStaff () {
 	})
 
 }
+
+
 
 updateAll()
 
