@@ -197,7 +197,7 @@ function updateModeLabel(){
 	d3.select("#modeLabel").text(note+ ' - ' +mode);
 
 	d3.select("#modeText").html(
-		"The scale starts in " + note + " and the intervals between consecutive notes are " + pattern + " semitones (" + mode + "). <br>" + 
+		"The mode starts in " + note + " and the intervals between consecutive notes are " + pattern + " semitones (" + mode + "). <br>" + 
 		"The note " + note + " plays the role of " + solfa + " in Solfedge."
 		)	
 }
@@ -262,8 +262,8 @@ sectorsMark.append("g") //Sectors
 	.append("path")
 		.attr("d",function(d,i) {return  i % 2 ==0 ? sectorPath(7*stepAngle,0,Radius) : sectorPath(5*stepAngle,0,Radius)	})
 		.attr("fill",function(d){return d.sectorColor})
-		.on("mousedown", playStart)
-		.on("mouseup",playStop);
+		.on("touchstart", function(d) {playStart(d,1) } )
+		.on("touchend", function(d) {playStop(d,1) } )
 
 sectorsMark.filter(function(d,i) {return i==0} ) //Mode names
 	.append("g")		
