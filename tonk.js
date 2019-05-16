@@ -142,14 +142,20 @@ setValues : function(position){
 					//console.log(d.nLiteral , d.midiPitch)
 					d.playerSolfa =[];
 
+					// for (var j=0; j<3;j++) {
+					// 	var url = "./SolfedgeSamplesMp3/" + (d.midiPitch + 12*j) + '_' + d.Solfa + ".mp3"
+					// 	d.playerSolfa[j] = new Tone.Player({
+					// 		"url" : url,
+					// 		"autostart" : false,
+					// 		}).toMaster();
+					// }
+
 					for (var j=0; j<3;j++) {
 						var url = "./SolfedgeSamplesMp3/" + (d.midiPitch + 12*j) + '_' + d.Solfa + ".mp3"
-						d.playerSolfa[j] = new Tone.Player({
-							"url" : url,
-							"autostart" : false,
-							}).toMaster();
+						d.playerSolfa[j] = new Audio(url);
+						d.playerSolfa[j].preload = 'auto';
+						// d.playerSolfa[j].load();
 					}
-
 
 
 					}	
@@ -415,12 +421,12 @@ function updateStarText(data){
 
 
 function playStart(d,j){	
-	d.playerSolfa[j].start();
+	d.playerSolfa[j].play();
 	//synth.triggerAttackRelease(d.Literal+"4", "8n");
 }
 
 function playStop(d,j){
-	d.playerSolfa[j].stop();
+	d.playerSolfa[j].load();
 }
 
 
@@ -534,7 +540,7 @@ svg2 = d3.select("#keyboard").append("svg")
 		.attr("height",150);
 
 
-var synth = new Tone.Synth().toMaster();
+//var synth = new Tone.Synth().toMaster();
 
 
 function updateKeyboard(data){
@@ -599,14 +605,14 @@ var keys = svg2.selectAll("g").data(data);
 					.attr("text-anchor","middle")
 					.text(function (d) {return (d.id/2 + 1) })
 					.attr("x", function(d,i) {return 22+ 45* (i) })
-					.attr("y", 20)	
+					.attr("y", 27)	
 
 		newKey.append("text")
 					.attr("class","key-Ordinal")
 					.attr("text-anchor","middle")
 					.text(function (d) {return (d.id/2 + 1) })
 					.attr("x", function(d,i) {return 22+ 45* (i + 7) })
-					.attr("y", 20)
+					.attr("y", 27)
 
 		newKey.append("text")
 					.attr("class","key-Ordinal")
@@ -614,7 +620,7 @@ var keys = svg2.selectAll("g").data(data);
 					.datum(data[0])
 					.text(function (d) {return (d.id/2 + 1) })
 					.attr("x", function(d,i) {return 22+ 45* (7 + 7) })
-					.attr("y", 20)
+					.attr("y", 27)
 
 
 		newKey.append("text")

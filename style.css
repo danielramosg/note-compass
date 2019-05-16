@@ -1,6 +1,8 @@
 @font-face {
-  font-family: 'Maestro';
-  src: url('fonts/Maestro.ttf');
+  font-family: "Maestro";
+  font-style: normal;
+  font-weight: normal;
+  src: url("fonts/Maestro.ttf") format("truetype");
 }
 
 body {
@@ -12,6 +14,7 @@ body {
 
 	-webkit-tap-highlight-color: rgba(0,0,0,0);
 
+	overflow: hidden;
 
 	font-family: "Palatino";
 	font-weight: bold;
@@ -35,17 +38,21 @@ body {
 	display: inline-block;
     right: 0px;
     width: 60%;
+    margin: 20px;
 }	
 
 
 .top {
+	position: fixed;
+	top: 10px;
 	text-align: center;
 	width: 100%;	
 }
 
 .middle {
 	text-align: center;
-	width: 100%;	
+	width: 100%;
+	zoom: 0.9;	
 }
 
 
@@ -53,8 +60,8 @@ body {
 	position:fixed;
 	left:10px;
 	bottom: 0;
-	zoom: 1.41;
-    -moz-transform: scale(1.41);
+	zoom: 1.1;
+    -moz-transform: scale(1.1);
 }
 
 
@@ -64,7 +71,7 @@ body {
 	display: inline-block;
 	top: 10px;
 	text-align: center;
-	width: 80%;
+	width: 65%;
 }
 
 .wheel {
@@ -115,7 +122,7 @@ body {
 
 
 .scaleNumbers{
-	font-family: Maestro;
+	font-family: Palatino;
 	font-size: 40px;
 }
 
@@ -124,8 +131,8 @@ body {
 }
 
 .key-Ordinal {
-	font-family: Maestro;
-	font-size: 40px;
+	font-family: Palatino;
+	font-size: 30px;
 }
 
 .score {
