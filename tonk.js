@@ -384,7 +384,7 @@ solfaMark = outerWheel.selectAll(".solfaMark")
 solfaMark.append("text")	
 	.attr("x",function(d,i){var r = (d%12)/12 ; return (0.71 *r + 0.77 * (1-r) )*Radius })
 	.attr("y",0)
-	.text(function(d){return solfaNotes[d%12]})
+	.html(function(d){return solfaNotes[d%12]})
 	.attr("transform",function(d,i){return "rotate(-1)" } );
 
 solfaMark.append("line")
