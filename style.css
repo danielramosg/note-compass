@@ -27,33 +27,32 @@ body {
 	position: fixed;
 	top: 10px;
 	}
-	
-.left {
-    display: inline-block;
-    left: 0px;
-    width: 20%;
-}
-
-.right {
-	display: inline-block;
-    right: 0px;
-    width: 60%;
-    margin: 20px;
-}	
-
 
 .top {
 	position: fixed;
 	top: 10px;
 	text-align: center;
-	width: 100%;	
+	width:100%;
+	height: 60%;
+	padding: 5% 0;
 }
 
-.middle {
-	text-align: center;
-	width: 100%;
-	zoom: 0.9;	
+.left {
+    display: inline-block;
+    left: 0px;
+    width: 20%;
+    padding: 10% 0;
 }
+
+.right {
+	display: inline-block;
+    right: 0px;
+    width: 20%;
+    margin: 20px;
+}	
+
+
+
 
 
 .bottom {
@@ -62,6 +61,8 @@ body {
 	bottom: 0;
 	zoom: 1.1;
     -moz-transform: scale(1.1);
+    text-align: center;
+    width: 100%
 }
 
 
@@ -71,7 +72,7 @@ body {
 	display: inline-block;
 	top: 10px;
 	text-align: center;
-	width: 65%;
+	width: 50%;
 }
 
 .wheel {
@@ -107,6 +108,11 @@ body {
 	display: inline-block;
 	text-align: center;
 
+}
+
+#piano{
+	display: inline-block;
+	text-align: center;
 }
 
 #modeLabel {
