@@ -1,4 +1,4 @@
-const mod = (x, n) => (x % n + n) % n
+const mod = (x, n) => (x % n + n) % n;
 
 
 // https://stackoverflow.com/questions/31060642/preload-multiple-audio-files
@@ -58,9 +58,9 @@ function loadedAudio() {
     if (loaded == audioFiles.length){
     	// all have loaded
     	// init();
-    	console.log("All audio files loaded.")
+    	console.log("All audio files loaded.");
     }
-}
+};
 
 
 for (var i in audioFiles) {
@@ -109,7 +109,7 @@ mode = TkData[1]
 
 
 var pitchNotes = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
-var solfaNotes = ["fa", "do", "so", "re", "la", "mi", "ti", "fi \xa0 sa", "di \xa0 ra", "si \xa0 lo", "ri \xa0 ma", "li \xa0 ta" ];
+var solfaNotes = ["fa", "do", "so", "re", "la", "mi", "ti", "fi &nbsp; sa", "di &nbsp; ra", "si &nbsp; lo", "ri &nbsp; ma", "li &nbsp; ta" ];
 var solfaNotesFile = ["Fa", "Do", "So", "Re", "La", "Mi", "Ti", "", "", "", "", "" ]; //for mp3 filenames
 
 var modeNames = [
@@ -202,7 +202,7 @@ setValues : function(position){
 					d.active	= true		
 					d.nSolfa 	= mod(i+position,7)
 					d.Solfa 	= solfaNotesFile[d.nSolfa]
-					d.nLiteral 	= mod( i - Math.floor( (i+position)/7. ) , 12 )
+					d.nLiteral 	= mod( i - Math.floor( (i+position)/7.0 ) , 12 )
 					//d.nLiteral = scale[i/2]
 					d.Literal 	= pitchNotes[d.nLiteral]
 					d.midiPitch = 36 + d.nLiteral
@@ -232,7 +232,7 @@ setValues : function(position){
 
 					}	
 				else {			//black keys 
-					var normsector = (i+position)/7. 
+					var normsector = (i+position)/7.0 
 					//console.log( i, mod( position + i-1  ,7))
 					if ( mod( position +i-1  ,7) > 4 ){ 
 							d.active	= false
@@ -242,7 +242,7 @@ setValues : function(position){
 							}
 					else {
 							d.active	= true
-							d.nLiteral 	= mod( i - Math.floor( (i+position)/7. ) , 12 )
+							d.nLiteral 	= mod( i - Math.floor( (i+position)/7.0 ) , 12 )
 							d.Literal 	= pitchNotes[d.nLiteral]
 							d.midiPitch = 50 + d.nLiteral
 							if (d.midiPitch < basePitch) {d.midiPitch+=12}
@@ -316,7 +316,7 @@ outerWheel = svg.append("g"); //outer
 		
 outerWheel.attr("transform", "translate(" + (Radius + 5) +','+ (Radius + 5) +')' );
 
-var stepAngle = 360./84;
+var stepAngle = 360.0/84;
 
 outerWheel.append("circle")
 	.attr("r",Radius)
@@ -351,7 +351,7 @@ sectorsMark.filter(function(d,i) {return i==0} ) //Mode names
 sectorsMark.filter(function(d,i) {return i==0} ) //Tick lines for Mode names
 	.selectAll(".solfaTick").data(d3.range(8)).enter()
 	.append("line")
-	.attr("x1",.68*Radius).attr("y1",0)
+	.attr("x1",0.68*Radius).attr("y1",0)
 	.attr("x2",Radius).attr("y2",0)
 	.attr("class","solfaTick")
 	.attr("transform",function(d,i){return "rotate(" + (i*stepAngle) +')' });
@@ -388,8 +388,8 @@ solfaMark.append("text")
 	.attr("transform",function(d,i){return "rotate(-1)" } );
 
 solfaMark.append("line")
-	.attr("x1",.68*Radius).attr("y1",0)
-	.attr("x2",.86*Radius).attr("y2",0)
+	.attr("x1",0.68*Radius).attr("y1",0)
+	.attr("x2",0.86*Radius).attr("y2",0)
 	.attr("class","wheel");	
 
 solfaMark.attr("transform",function(d,i){return "rotate(" + (-90+stepAngle*(i+1)) +')' } );
@@ -468,7 +468,7 @@ function updateStarText(data){
 	//console.log(noteMark)
 
 	noteMark.select("text").text(function(d){return d})
-		.attr("x",.45*Radius)
+		.attr("x",0.45*Radius)
 		.attr("y",0)
 		.attr("transform",function(d,i){return "rotate(2)" } );
 
@@ -506,7 +506,7 @@ function playStop(d,j){
 
 
 
-var stepAngle = 360./84;
+var stepAngle = 360.0/84;
 
 var position=1;
 var mode = TkData.filter(function(m){return m.indices.includes(mod(position,84)) } )[0]
