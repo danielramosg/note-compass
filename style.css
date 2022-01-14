@@ -27,7 +27,13 @@ body {
 	position: fixed;
 	top: 10px;
 	}
-	
+.top {
+	position: fixed;
+	top: 10px;
+	text-align: center;
+	width: 100%;
+}
+
 .left {
     display: inline-block;
     left: 0px;
@@ -42,12 +48,7 @@ body {
 }	
 
 
-.top {
-	position: fixed;
-	top: 10px;
-	text-align: center;
-	width: 100%;	
-}
+
 
 .middle {
 	text-align: center;
@@ -71,7 +72,7 @@ body {
 	display: inline-block;
 	top: 10px;
 	text-align: center;
-	width: 65%;
+	width: 50%;
 }
 
 .wheel {
@@ -125,6 +126,12 @@ body {
 	font-family: Palatino;
 	font-size: 40px;
 }
+
+.degRoles{
+  font-family: Palatino;
+	font-size: 40px;
+}
+
 
 .key-Literal, .key-Solfa {
 	font-size: 23px;

@@ -3,7 +3,9 @@
 
 <head>
 
-<script src="vendor/d3.min.js"></script>
+<!-- <script src="vendor/d3.min.js"></script> -->
+<script src="https://d3js.org/d3.v6.min.js"></script>
+
 <!-- <script src="vendor/Tone.js"></script> -->
 
 <script src="vendor/JZZ.js"></script>
@@ -18,6 +20,7 @@
 
 
 <script src="compassData.js"></script>
+<script src="wheel.js"></script>
 
 <script id="svg_staff"  type="text/html">
   <svg
@@ -147,24 +150,6 @@
 </head>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <body>
 
 <!--<div id="applet" class="split left"> </div> -->
@@ -172,31 +157,8 @@
 
 
 <div class="top">
-<div id="wheel" >
 
-<svg height=100% width=100% viewBox="0 0 780 700" >
-<g transform = "translate(600,63)">
-<path
-     style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;white-space:normal;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:20.00000191;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
-     d="M 0.70117188 0.70117188 L 32.173828 68.78125 C 33.08051 63.263942 34.980267 58.098872 37.675781 53.472656 C 70.942738 92.90498 95.221217 139.26471 108.63672 189.33203 A 10.001001 10.001001 0 1 0 127.95508 184.15625 C 113.57992 130.50747 87.39943 80.886012 51.484375 38.839844 C 56.600868 35.460899 62.461327 33.135521 68.78125 32.173828 L 0.70117188 0.70117188 z "
-     id="upIcon" />
-  <path
-     style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;white-space:normal;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:20.00000191;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
-     d="M 118.80078 363.99219 A 10.001001 10.001001 0 0 0 108.63672 371.5293 C 95.3304 421.18915 71.333326 467.20028 38.482422 506.42383 C 36.050503 502.11302 34.363951 497.33327 33.589844 492.24609 L 3.2441406 557.89062 L 68.888672 527.54492 C 62.822764 526.54809 57.195714 524.30577 52.28125 521.09961 C 87.789919 479.25212 113.68563 429.96136 127.95508 376.70703 A 10.001001 10.001001 0 0 0 118.80078 363.99219 z "
-     id="downIcon" />
-  <path
-     id="reloadIcon"
-     d="m 133.04836,247.29993 c -3.15572,-0.0867 -6.35724,0.32362 -9.49414,1.27148 -12.54761,3.79147 -21.36957,15.26335 -22.23438,28.58203 -0.86481,13.31869 6.37624,25.87701 18.30078,31.37305 11.92456,5.49604 26.01509,2.62685 35.02539,-7.04883 a 5.0005002,5.0005002 0 1 0 -7.31835,-6.81445 c -6.17791,6.63412 -15.47321,8.49071 -23.52149,4.78125 -8.04828,-3.70946 -13.11259,-12.32854 -12.50781,-21.64258 0.60478,-9.31404 6.7138,-17.10954 15.14844,-19.6582 6.58841,-1.9908 13.51303,-0.50286 18.75,3.79297 l -3.44141,2.4375 18.1582,8.33984 -1.83593,-19.89844 -4.51954,3.19922 c -5.57232,-5.40945 -12.90947,-8.50607 -20.50976,-8.71484 z"
-     style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;white-space:normal;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:10.00000095;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
-  <!-- <path
-     transform="matrix(0.33799485,0.65821724,-0.65493858,0.34009184,-368.11582,-177.9102)"
-     d="m 937.1901,-390.92823 -33.93509,-17.89517 -33.93509,-17.89517 32.46522,-20.44107 32.46522,-20.44106 1.46987,38.33624 z"
-     id="playIcon"
-     style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:13.53278923;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" /> -->
-</g>
-</svg>
-
-</div>
+    <div id="wheel" > </div>
 
 
 
