@@ -115,10 +115,7 @@ var keys = svg2.selectAll("g").data(data);
 			.remove();
 
 	//Enter selection
-	var newKey = keys.enter().append("g");
-
-
-
+	var newKey = keys.enter();
 
 		newKey.append("rect")
 					.attr("class","oct1" )
@@ -126,8 +123,8 @@ var keys = svg2.selectAll("g").data(data);
 					.style("stroke","black")
 					//.on("click",function (d) {synth.triggerAttackRelease(Tone.Frequency( (d.midiPitch ) ,"midi"),"8n") } )
 					//.on("touchstart",function (d) {synth.triggerAttackRelease(Tone.Frequency( (d.midiPitch ),"midi"),"8n") } )
-					.on("touchstart", function(d) {playStart(d,0) } )
-					.on("touchend", function(d) {playStop(d,0) } )
+					.on("touchstart mousedown mouseenter", function(ev,d) {playStart(d,0) } )
+					.on("touchend mouseup mouseleave", function(ev,d) {playStop(d,0) } )
 					.attr("width",function (d) {return d.type=="white" ? 46 : 50 })
 					.attr("height",function (d) {return d.type=="white" ? 150 : 50 })
 					.style("fill",function (d) {return d.sectorColor})
@@ -140,23 +137,23 @@ var keys = svg2.selectAll("g").data(data);
 					.style("stroke","black")
 					//.on("click",function (d) {synth.triggerAttackRelease(Tone.Frequency(d.midiPitch + 12,"midi"),"8n") } )
 					//.on("touchstart",function (d) {synth.triggerAttackRelease(Tone.Frequency(d.midiPitch + 12,"midi"),"8n") } )
-					.on("touchstart", function(d) {playStart(d,1) } )
-					.on("touchend", function(d) {playStop(d,1) } )
+					.on("touchstart mousedown mouseenter", function(ev,d) {playStart(d,1) } )
+					.on("touchend mouseup mouseleave", function(ev,d) {playStop(d,1) } )
 					.attr("width",function (d) {return d.type=="white" ? 46 : 50 })
 					.attr("height",function (d) {return d.type=="white" ? 150 : 50 })
 					.style("fill",function (d) {return d.sectorColor})
 					.attr("x", function(d,i) {return 45* (i + 7) })
 					.attr("y", 0);
 
-		newKey.append("rect")
+		svg2.append("rect")
 					.attr("class","note15")
 					.style("stroke-width",1)
 					.style("stroke","black")
 					.datum(data[0])
 					//.on("click",function (d) {synth.triggerAttackRelease(Tone.Frequency(d.midiPitch + 24,"midi"),"8n") } )
 					//.on("touchstart",function (d) {synth.triggerAttackRelease(Tone.Frequency(d.midiPitch + 24,"midi"),"8n") } )
-					.on("touchstart", function(d) {playStart(d,2) } )
-					.on("touchend", function(d) {playStop(d,2) } )
+          .on("touchstart mousedown mouseenter", function(ev,d) {playStart(d,2) } )
+					.on("touchend mouseup mouseleave", function(ev,d) {playStop(d,2) } )
 					.attr("width",46)
 					.attr("height",150)
 					.style("fill",data[0].sectorColor)
@@ -177,7 +174,7 @@ var keys = svg2.selectAll("g").data(data);
 					.attr("x", function(d,i) {return 22+ 45* (i + 7) })
 					.attr("y", 27)
 
-		newKey.append("text")
+		svg2.append("text")
 					.attr("class","key-Ordinal")
 					.attr("text-anchor","middle")
 					.datum(data[0])
@@ -200,7 +197,7 @@ var keys = svg2.selectAll("g").data(data);
 					.attr("x", function(d,i) {return 22+ 45* (i + 7) })
 					.attr("y", 55)
 
-		newKey.append("text")
+		svg2.append("text")
 					.attr("class","key-Literal")
 					.attr("text-anchor","middle")
 					.datum(data[0])
@@ -222,7 +219,7 @@ var keys = svg2.selectAll("g").data(data);
 					.attr("x", function(d,i) {return 22+ 45* (i + 7) })
 					.attr("y", 80)
 
-		newKey.append("text")
+		svg2.append("text")
 					.attr("class","key-Solfa")
 					.attr("text-anchor","middle")
 					.datum(data[0])
@@ -298,4 +295,3 @@ updatePiano();
 
 
 updateAll()
-
