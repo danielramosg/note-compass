@@ -1,42 +1,59 @@
 const mod = (x, n) => (x % n + n) % n;
 
 
-// https://stackoverflow.com/questions/31060642/preload-multiple-audio-files
-function preloadAudio(url) {
-    var audio = new Audio();
-    // once this file loads, it will call loadedAudio()
-    // the file will be kept by the browser as cache
-    audio.addEventListener('canplaythrough', loadedAudio, false);
-    audio.src = "./SolfedgeSamplesMp3/" + url;
-}
+var audioBuffers={}
+var audioCtx = new AudioContext();
 
-var loaded = 0;
-function loadedAudio() {
-    // this will be called every time an audio file is loaded
-    // we keep track of the loaded files vs the requested files
-    loaded++;
-    if (loaded == audioFiles.length){
-    	// all have loaded
-    	// init();
-    	console.log("All audio files loaded.");
+
+async function loadAudio(){
+  var pitch, solfa, name;
+  var notes = ["Fa", "Do", "So", "Re", "La", "Mi", "Ti"]
+  for (pitch=36; pitch<=72; pitch++) {
+    for (solfa in notes) {
+      name = pitch + '_' + notes[solfa];
+      // console.log("Loading " + name + " ...");
+      await fetch("./SolfedgeSamplesMp3/" + name + ".mp3")
+        .then(response => response.arrayBuffer())
+          .then(arrayBuffer => audioCtx.decodeAudioData(arrayBuffer))
+            .then(audioBuffer => {
+              audioBuffers[name] = audioBuffer;
+              // console.log("Loaded " + name);
+            });
     }
-};
-
-for (var i in audioFiles) {
-    preloadAudio(audioFiles[i]);
+  }
+  console.log("All audio files loaded into buffers")
 }
 
+
+
+
+
+
+function playFetched(d,j) {
+    var buffer = d.solfaBuffer[j];
+    const source = audioCtx.createBufferSource();
+    source.buffer = buffer;
+    source.connect(audioCtx.destination);
+    source.start(0);
+  }
 
 function playStart(d,j){
-	d.playerSolfa[j].play();
+	// d.playerSolfa[j].play();
 	//synth.triggerAttackRelease(d.Literal+"4", "8n");
 }
 
 
 function playStop(d,j){
-	d.playerSolfa[j].load();
+	// d.playerSolfa[j].load();
 }
 
+async function start(){
+  await loadAudio();
+  drawWheel();
+  loadSVGstaff();
+  drawPiano();
+  updateAll();
+}
 
 //////////////////////////
 
@@ -46,8 +63,8 @@ getMode();
 
 Scale.setValues(position);
 
-drawWheel();
-loadSVGstaff();
+start();
+
 
 
 
@@ -81,20 +98,20 @@ function updateAll(){
 WhiteScale = Scale.notes.filter(function(d){return d.type=="white"})
 FullScale = Scale.notes.filter(function(d){return d.active})
 
-function playScale(scale) {
-	now = Tone.now();
-	WhiteScale.forEach(function(d,i) {
-			//console.log(d.Literal+"4")
-			synth.triggerAttackRelease(Tone.Frequency(d.midiPitch,"midi"),"8n", now + 0.5 + 0.25*i );
-			//key = svg.selectAll("g")
-			})
-
-			synth.triggerAttackRelease(Tone.Frequency(WhiteScale[0].midiPitch+12,"midi"),"8n", now + 0.5 + 0.25*7 );
-
-};
-
-d3.select("#playButton").on("click", playScale );
-d3.select("#playIcon").on("click", playScale );
+// function playScale(scale) {
+// 	now = Tone.now();
+// 	WhiteScale.forEach(function(d,i) {
+// 			//console.log(d.Literal+"4")
+// 			synth.triggerAttackRelease(Tone.Frequency(d.midiPitch,"midi"),"8n", now + 0.5 + 0.25*i );
+// 			//key = svg.selectAll("g")
+// 			})
+//
+// 			synth.triggerAttackRelease(Tone.Frequency(WhiteScale[0].midiPitch+12,"midi"),"8n", now + 0.5 + 0.25*7 );
+//
+// };
+//
+// d3.select("#playButton").on("click", playScale );
+// d3.select("#playIcon").on("click", playScale );
 
 
 
@@ -123,7 +140,7 @@ var keys = svg2.selectAll("g").data(data);
 					.style("stroke","black")
 					//.on("click",function (d) {synth.triggerAttackRelease(Tone.Frequency( (d.midiPitch ) ,"midi"),"8n") } )
 					//.on("touchstart",function (d) {synth.triggerAttackRelease(Tone.Frequency( (d.midiPitch ),"midi"),"8n") } )
-					.on("touchstart mousedown mouseenter", function(ev,d) {playStart(d,0) } )
+					.on("touchstart mousedown", function(ev,d) {playFetched(d,0) } )
 					.on("touchend mouseup mouseleave", function(ev,d) {playStop(d,0) } )
 					.attr("width",function (d) {return d.type=="white" ? 46 : 50 })
 					.attr("height",function (d) {return d.type=="white" ? 150 : 50 })
@@ -137,7 +154,7 @@ var keys = svg2.selectAll("g").data(data);
 					.style("stroke","black")
 					//.on("click",function (d) {synth.triggerAttackRelease(Tone.Frequency(d.midiPitch + 12,"midi"),"8n") } )
 					//.on("touchstart",function (d) {synth.triggerAttackRelease(Tone.Frequency(d.midiPitch + 12,"midi"),"8n") } )
-					.on("touchstart mousedown mouseenter", function(ev,d) {playStart(d,1) } )
+					.on("touchstart mousedown", function(ev,d) {playFetched(d,1) } )
 					.on("touchend mouseup mouseleave", function(ev,d) {playStop(d,1) } )
 					.attr("width",function (d) {return d.type=="white" ? 46 : 50 })
 					.attr("height",function (d) {return d.type=="white" ? 150 : 50 })
@@ -152,7 +169,7 @@ var keys = svg2.selectAll("g").data(data);
 					.datum(data[0])
 					//.on("click",function (d) {synth.triggerAttackRelease(Tone.Frequency(d.midiPitch + 24,"midi"),"8n") } )
 					//.on("touchstart",function (d) {synth.triggerAttackRelease(Tone.Frequency(d.midiPitch + 24,"midi"),"8n") } )
-          .on("touchstart mousedown mouseenter", function(ev,d) {playStart(d,2) } )
+          .on("touchstart mousedown", function(ev,d) {playFetched(d,2) } )
 					.on("touchend mouseup mouseleave", function(ev,d) {playStop(d,2) } )
 					.attr("width",46)
 					.attr("height",150)
@@ -261,20 +278,21 @@ var keys = svg2.selectAll("g").data(data);
 
 ///// Piano
 
-
-
-
 JZZ.synth.Tiny.register();
+var piano;
 
-piano = JZZ.input.Kbd(
-		{at:'piano',
-		from: 'C3',
-		to: 'C5',
-		ww: 45,
-		wl: 150,
-		}
-	)
-.connect(JZZ().openMidiOut());
+function drawPiano(){
+  piano = JZZ.input.Kbd(
+  		{at:'piano',
+  		from: 'C3',
+  		to: 'C5',
+  		ww: 45,
+  		wl: 150,
+  		}
+  	)
+  .connect(JZZ().openMidiOut());
+}
+
 
 function updatePiano(){
 	piano.getWhiteKeys().setStyle({ backgroundColor: 'white' }, { });
@@ -290,8 +308,3 @@ function updatePiano(){
 		}
 	})
 }
-
-updatePiano();
-
-
-updateAll()

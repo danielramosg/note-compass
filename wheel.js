@@ -63,8 +63,8 @@ function drawWheel(){
   	.append("path")
   		.attr("d",function(d,i) {return  i % 2 ==0 ? sectorPath(7*stepAngle,0,Radius) : sectorPath(5*stepAngle,0,Radius)	})
   		.attr("fill",function(d){return d.sectorColor})
-  		.on("touchstart", function(d) {playStart(d,1) } )
-  		.on("touchend", function(d) {playStop(d,1) } )
+  		// .on("touchstart mousedown", function(d) {playStart(d,1) } )
+  		// .on("touchend mouseup", function(d) {playStop(d,1) } )
 
   // WRITE MODE NAMES (IN SECTOR 0)
   sectorsMark.filter(function(d,i) {return i==0} )
@@ -248,6 +248,7 @@ function dragged(event){
     updateStarText(mode.all_note_names);
     updateStaff();
     updateModeLabel();
+		// updateKeyboard(WhiteScale)
     //updateAll();
 
 }

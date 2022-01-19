@@ -199,22 +199,20 @@ setValues : function(position){
 					//if (i<rootSector) d.midiPitch -=12;
 
 					//console.log(d.nLiteral , d.midiPitch)
-					d.playerSolfa =[];
 
+          d.solfaBuffer = [];
+
+          for (var j=0; j<3;j++) {
+            d.solfaBuffer[j] = audioBuffers[(d.midiPitch + 12*j) + '_' + d.Solfa ];
+          }
+					// d.playerSolfa =[];
+          //
 					// for (var j=0; j<3;j++) {
 					// 	var url = "./SolfedgeSamplesMp3/" + (d.midiPitch + 12*j) + '_' + d.Solfa + ".mp3"
-					// 	d.playerSolfa[j] = new Tone.Player({
-					// 		"url" : url,
-					// 		"autostart" : false,
-					// 		}).toMaster();
+					// 	d.playerSolfa[j] = new Audio(url);
+					// 	d.playerSolfa[j].preload = 'auto';
+					// 	// d.playerSolfa[j].load();
 					// }
-
-					for (var j=0; j<3;j++) {
-						var url = "./SolfedgeSamplesMp3/" + (d.midiPitch + 12*j) + '_' + d.Solfa + ".mp3"
-						d.playerSolfa[j] = new Audio(url);
-						d.playerSolfa[j].preload = 'auto';
-						// d.playerSolfa[j].load();
-					}
 
 
 					}
