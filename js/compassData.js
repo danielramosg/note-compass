@@ -4,46 +4,6 @@
 // ♯   &#9839;   &sharp;
 
 
-audioFiles = [
-    "36_Do.mp3","36_Fa.mp3","36_La.mp3","36_Mi.mp3","36_Re.mp3","36_So.mp3","36_Ti.mp3",
-    "37_Do.mp3","37_Fa.mp3","37_La.mp3","37_Mi.mp3","37_Re.mp3","37_So.mp3","37_Ti.mp3",
-    "38_Do.mp3","38_Fa.mp3","38_La.mp3","38_Mi.mp3","38_Re.mp3","38_So.mp3","38_Ti.mp3",
-    "39_Do.mp3","39_Fa.mp3","39_La.mp3","39_Mi.mp3","39_Re.mp3","39_So.mp3","39_Ti.mp3",
-    "40_Do.mp3","40_Fa.mp3","40_La.mp3","40_Mi.mp3","40_Re.mp3","40_So.mp3","40_Ti.mp3",
-    "41_Do.mp3","41_Fa.mp3","41_La.mp3","41_Mi.mp3","41_Re.mp3","41_So.mp3","41_Ti.mp3",
-    "42_Do.mp3","42_Fa.mp3","42_La.mp3","42_Mi.mp3","42_Re.mp3","42_So.mp3","42_Ti.mp3",
-    "43_Do.mp3","43_Fa.mp3","43_La.mp3","43_Mi.mp3","43_Re.mp3","43_So.mp3","43_Ti.mp3",
-    "44_Do.mp3","44_Fa.mp3","44_La.mp3","44_Mi.mp3","44_Re.mp3","44_So.mp3","44_Ti.mp3",
-    "45_Do.mp3","45_Fa.mp3","45_La.mp3","45_Mi.mp3","45_Re.mp3","45_So.mp3","45_Ti.mp3",
-    "46_Do.mp3","46_Fa.mp3","46_La.mp3","46_Mi.mp3","46_Re.mp3","46_So.mp3","46_Ti.mp3",
-    "47_Do.mp3","47_Fa.mp3","47_La.mp3","47_Mi.mp3","47_Re.mp3","47_So.mp3","47_Ti.mp3",
-    "48_Do.mp3","48_Fa.mp3","48_La.mp3","48_Mi.mp3","48_Re.mp3","48_So.mp3","48_Ti.mp3",
-    "49_Do.mp3","49_Fa.mp3","49_La.mp3","49_Mi.mp3","49_Re.mp3","49_So.mp3","49_Ti.mp3",
-    "50_Do.mp3","50_Fa.mp3","50_La.mp3","50_Mi.mp3","50_Re.mp3","50_So.mp3","50_Ti.mp3",
-    "51_Do.mp3","51_Fa.mp3","51_La.mp3","51_Mi.mp3","51_Re.mp3","51_So.mp3","51_Ti.mp3",
-    "52_Do.mp3","52_Fa.mp3","52_La.mp3","52_Mi.mp3","52_Re.mp3","52_So.mp3","52_Ti.mp3",
-    "53_Do.mp3","53_Fa.mp3","53_La.mp3","53_Mi.mp3","53_Re.mp3","53_So.mp3","53_Ti.mp3",
-    "54_Do.mp3","54_Fa.mp3","54_La.mp3","54_Mi.mp3","54_Re.mp3","54_So.mp3","54_Ti.mp3",
-    "55_Do.mp3","55_Fa.mp3","55_La.mp3","55_Mi.mp3","55_Re.mp3","55_So.mp3","55_Ti.mp3",
-    "56_Do.mp3","56_Fa.mp3","56_La.mp3","56_Mi.mp3","56_Re.mp3","56_So.mp3","56_Ti.mp3",
-    "57_Do.mp3","57_Fa.mp3","57_La.mp3","57_Mi.mp3","57_Re.mp3","57_So.mp3","57_Ti.mp3",
-    "58_Do.mp3","58_Fa.mp3","58_La.mp3","58_Mi.mp3","58_Re.mp3","58_So.mp3","58_Ti.mp3",
-    "59_Do.mp3","59_Fa.mp3","59_La.mp3","59_Mi.mp3","59_Re.mp3","59_So.mp3","59_Ti.mp3",
-    "60_Do.mp3","60_Fa.mp3","60_La.mp3","60_Mi.mp3","60_Re.mp3","60_So.mp3","60_Ti.mp3",
-    "61_Do.mp3","61_Fa.mp3","61_La.mp3","61_Mi.mp3","61_Re.mp3","61_So.mp3","61_Ti.mp3",
-    "62_Do.mp3","62_Fa.mp3","62_La.mp3","62_Mi.mp3","62_Re.mp3","62_So.mp3","62_Ti.mp3",
-    "63_Do.mp3","63_Fa.mp3","63_La.mp3","63_Mi.mp3","63_Re.mp3","63_So.mp3","63_Ti.mp3",
-    "64_Do.mp3","64_Fa.mp3","64_La.mp3","64_Mi.mp3","64_Re.mp3","64_So.mp3","64_Ti.mp3",
-    "65_Do.mp3","65_Fa.mp3","65_La.mp3","65_Mi.mp3","65_Re.mp3","65_So.mp3","65_Ti.mp3",
-    "66_Do.mp3","66_Fa.mp3","66_La.mp3","66_Mi.mp3","66_Re.mp3","66_So.mp3","66_Ti.mp3",
-    "67_Do.mp3","67_Fa.mp3","67_La.mp3","67_Mi.mp3","67_Re.mp3","67_So.mp3","67_Ti.mp3",
-    "68_Do.mp3","68_Fa.mp3","68_La.mp3","68_Mi.mp3","68_Re.mp3","68_So.mp3","68_Ti.mp3",
-    "69_Do.mp3","69_Fa.mp3","69_La.mp3","69_Mi.mp3","69_Re.mp3","69_So.mp3","69_Ti.mp3",
-    "70_Do.mp3","70_Fa.mp3","70_La.mp3","70_Mi.mp3","70_Re.mp3","70_So.mp3","70_Ti.mp3",
-    "71_Do.mp3","71_Fa.mp3","71_La.mp3","71_Mi.mp3","71_Re.mp3","71_So.mp3","71_Ti.mp3",
-    "72_Do.mp3","72_Fa.mp3","72_La.mp3","72_Mi.mp3","72_Re.mp3","72_So.mp3","72_Ti.mp3"
-];
-
 // Midi n.  Note          Frequency
 // 72	      C5	          523.25
 // 71	      B4            493.88
@@ -245,37 +205,18 @@ setValues : function(position){
 
 					if (i==0) basePitch = d.midiPitch
 					if (d.midiPitch < basePitch) {d.midiPitch+=12}
-					//if (i<rootSector) d.midiPitch -=12;
 
-					//console.log(d.nLiteral , d.midiPitch)
-
-          // d.solfaBuffer = [];
-          //
-          // for (var j=0; j<3;j++) {
-          //   d.solfaBuffer[j] = audioBuffers[(d.midiPitch + 12*j) + '_' + d.Solfa ];
-          // }
-
-					// d.playerSolfa =[];
-          //
-					// for (var j=0; j<3;j++) {
-					// 	var url = "./SolfedgeSamplesMp3/" + (d.midiPitch + 12*j) + '_' + d.Solfa + ".mp3"
-					// 	d.playerSolfa[j] = new Audio(url);
-					// 	d.playerSolfa[j].preload = 'auto';
-					// 	// d.playerSolfa[j].load();
-					// }
-
-
-					}
-				else {			//black keys
-					var normsector = (i+position)/7.0
+        }
+        else {			//black keys
+        	var normsector = (i+position)/7.0
 					//console.log( i, mod( position + i-1  ,7))
 					if ( mod( position +i-1  ,7) > 4 ){
 							d.active	= false
 							d.nLiteral 	= ""
 							d.Literal 	= ""
 							d.midiPitch = ""
-							}
-					else {
+          }
+          else {
 							d.active	= true
 							d.nLiteral 	= mod( i - Math.floor( (i+position)/7.0 ) , 12 )
 							d.Literal 	= pitchNotes[d.nLiteral]
@@ -283,7 +224,7 @@ setValues : function(position){
 							if (d.midiPitch < basePitch) {d.midiPitch+=12}
 							//if (i<rootSector) d.midiPitch -=12;
 					}
-					}
+				}
 				})
 			}
 }

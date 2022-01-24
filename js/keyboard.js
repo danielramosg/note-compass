@@ -1,6 +1,5 @@
-const mod = (x, n) => (x % n + n) % n;
 
-
+// Audio for Keyboard
 var audioBuffers={}
 var audioCtx = new AudioContext();
 const masterGain = audioCtx.createGain();
@@ -63,53 +62,6 @@ function dragIn(ev,d) {
 }
 
 
-async function start(){
-  await loadAudio();
-  drawWheel();
-  loadSVGstaff();
-  drawPiano();
-  updateAll();
-}
-
-//////////////////////////
-
-position=1;
-mode = {};
-getMode();
-
-Scale.setValues(position);
-
-start();
-
-
-
-
-
-
-
-
-function updateAll(){
-	getMode();
-
-	rotateScaleWheel()
-	FullScale = Scale.notes.filter(function(d){return d.active})
-	//updateKeyboard(FullScale)
-  WhiteScaleLine =[]
-  makeWhiteScaleLine(15);
-
-	updateStarText(mode.all_note_names)
-	updateKeyboard(WhiteScaleLine)
-	updateStaff()
-	updateModeLabel()
-	updatePiano()
-}
-
-
-
-
-
-
-
 ////// Keyboard
 
 
@@ -132,24 +84,28 @@ FullScale = Scale.notes.filter(function(d){return d.active})
 // d3.select("#playIcon").on("click", playScale );
 
 
+var svg2;
 
-svg2 = d3.select("#keyboard").append("svg")
-		.attr("width",678)
-		.attr("height",150);
+function drawKeyboard(data){
+  svg2 = d3.select("#keyboard").append("svg")
+  		.attr("width",678)
+  		.attr("height",150);
+
+  updateKeyboard(data);
+}
 
 
-//var synth = new Tone.Synth().toMaster();
 
 
 function updateKeyboard(data){
-var keys = svg2.selectAll("g").data(data);
+    var keys = svg2.selectAll("g").data(data);
 
-//Exit selection
-	keys.exit()
-			.remove();
+    //Exit selection
+  	keys.exit()
+  			.remove();
 
-	//Enter selection
-	var newKey = keys.enter();
+  	//Enter selection
+  	var newKey = keys.enter();
 
 		newKey.append("rect")
           .attr("class","keyboardKey")
@@ -164,25 +120,21 @@ var keys = svg2.selectAll("g").data(data);
 
 		newKey.append("text")
 					.attr("class","key-Ordinal")
-					// .text(function (d) {return (d.sector/2 + 1) })
 					.attr("x", function(d,i) {return 22+ 45* (i) })
 					.attr("y", 27)
 
 		newKey.append("text")
 					.attr("class","key-Literal")
-					// .text(function (d) {return d.Literal})
 					.attr("x", function(d,i) {return 22+ 45* (i) })
 					.attr("y", 55)
 
 		newKey.append("text")
 					.attr("class","key-Solfa")
-					// .text(function (d) {return d.Solfa})
 					.attr("x", function(d,i) {return 22+ 45* (i) })
 					.attr("y", 80)
 
 		//Update selection
 		keys = keys.merge(newKey);
-
 
 		keys.selectAll("text.key-Ordinal")
 					.text(function (d) {return (d.sector/2 + 1) })
@@ -192,42 +144,4 @@ var keys = svg2.selectAll("g").data(data);
 
 		keys.selectAll("text.key-Solfa")
 					.text(function (d) {return d.Solfa})
-
-
-}
-
-
-
-
-///// Piano
-
-JZZ.synth.Tiny.register();
-var piano;
-
-function drawPiano(){
-  piano = JZZ.input.Kbd(
-  		{at:'piano',
-  		from: 'C3',
-  		to: 'C5',
-  		ww: 45,
-  		wl: 150,
-  		}
-  	)
-  .connect(JZZ().openMidiOut());
-}
-
-
-function updatePiano(){
-	piano.getWhiteKeys().setStyle({ backgroundColor: 'white' }, { });
-	piano.getBlackKeys().setStyle({ backgroundColor: 'black' }, { });
-
-
-	Scale.notes.forEach(function(d,i){
-		if (d.type == "white") {
-			piano.getKey(d.Literal+'3').setStyle({ backgroundColor: d.sectorColor}, {});
-			piano.getKey(d.Literal+'4').setStyle({ backgroundColor: d.sectorColor }, { });
-			piano.getKey(d.Literal+'5').setStyle({ backgroundColor: d.sectorColor }, { });
-
-		}
-	})
 }

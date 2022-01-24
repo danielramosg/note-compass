@@ -248,7 +248,8 @@ function dragged(event){
     updateStarText(mode.all_note_names);
     updateStaff();
     updateModeLabel();
-		// updateKeyboard(WhiteScale)
+		// makeWhiteScaleLine(15);
+		// updateKeyboard(WhiteScaleLine);
     //updateAll();
 
 }

@@ -1,6 +1,6 @@
 
 async function loadSVGstaff(){
-const newsvg = await d3.svg("staff.svg");
+const newsvg = await d3.svg("svg/staff.svg");
 var svgNode = newsvg.getElementsByTagName("svg")[0];
 document.getElementById("staff").appendChild(svgNode);
 var innerSVG = d3.select("#staff").select("svg");
