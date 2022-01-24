@@ -165,14 +165,23 @@ body {
 	font-size: 40px;
 }
 
+.keyboardKey {
+  stroke: black;
+  stroke-width: 1px;
+}
+
 
 .key-Literal, .key-Solfa {
+  text-anchor: middle;
 	font-size: 23px;
+  pointer-events: none;
 }
 
 .key-Ordinal {
+  text-anchor: middle;
 	font-family: Palatino;
 	font-size: 30px;
+  pointer-events: none;
 }
 
 .score {

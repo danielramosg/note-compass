@@ -44,7 +44,44 @@ audioFiles = [
     "72_Do.mp3","72_Fa.mp3","72_La.mp3","72_Mi.mp3","72_Re.mp3","72_So.mp3","72_Ti.mp3"
 ];
 
-
+// Midi n.  Note          Frequency
+// 72	      C5	          523.25
+// 71	      B4            493.88
+// 70	      A#4/Bb4       466.16
+// 69	      A4            440.00
+// 68	      G#4/Ab4       415.30
+// 67	      G4            392.00
+// 66	      F#4/Gb4       369.99
+// 65	      F4            349.23
+// 64	      E4            329.63
+// 63	      D#4/Eb4       311.13
+// 62	      D4            293.66
+// 61	      C#4/Db4       277.18
+// 60	      C4 (middle)   261.63
+// 59	      B3            246.94
+// 58	      A#3/Bb3       233.08
+// 57	      A3            220.00
+// 56	      G#3/Ab3       207.65
+// 55	      G3	          196.00
+// 54	      F#3/Gb3       185.00
+// 53	      F3	          174.61
+// 52	      E3	          164.81
+// 51	      D#3/Eb3       155.56
+// 50	      D3            146.83
+// 49	      C#3/Db3       138.59
+// 48	      C3	          130.81
+// 47	      B2	          123.47
+// 46	      A#2/Bb2       116.54
+// 45	      A2	          110.00
+// 44	      G#2/Ab2       103.83
+// 43	      G2	          98.00
+// 42	      F#2/Gb2       92.50
+// 41	      F2	          87.31
+// 40	      E2	          82.41
+// 39	      D#2/Eb2       77.78
+// 38	      D2	          73.42
+// 37	      C#2/Db2       69.30
+// 36	      C2	          65.41
 
 TkData =[
 {indices: [0, 36, 72, 24, 60, 12, 48], notes_id: [0,7,2,9,4,11,6], notes: ['C', 'G', 'D', 'A', 'E', 'B', 'F#'], signature: 1, all_note_names: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'Bb', 'B']},
@@ -109,6 +146,18 @@ modeNames = [
 degRoles = ["Tonic", "Supertonic", "Mediant", "Subdominant", "Dominant", "Submediant", "Leading"];
 
 ////// Scale Object
+// Scale is an array of 14 items, coresponding to the 14 sectors on the wheel. Each item is an object with the following attributes:
+ // - id: an id number, from 0 to 13.
+ // - active: true if the sector is selected by one spoke of the star.
+ // - type: white / black, this is a fixed attribute.
+ // - sectorSize: in multiples of the step angle 360/84, fixed attribute.
+ // - sectorColor: fixed attribute.
+ // - nSolfa
+ // - Solfa
+ // - nLiteral
+ // - Literal
+ // - midiPitch
+ // - solfaBuffer
 
 Scale = {
 
@@ -184,7 +233,7 @@ setValues : function(position){
 			//var rootSector= 2*Math.floor(position/12.) + ( position%12 > 6 ? 1 : 0);
 
 			this.notes.forEach(function(d,i){
-				d.id = i;
+				d.sector = i;
 				if (i%2 == 0) {			//white keys
 					d.active	= true
 					d.nSolfa 	= mod(i+position,7)
@@ -200,11 +249,12 @@ setValues : function(position){
 
 					//console.log(d.nLiteral , d.midiPitch)
 
-          d.solfaBuffer = [];
+          // d.solfaBuffer = [];
+          //
+          // for (var j=0; j<3;j++) {
+          //   d.solfaBuffer[j] = audioBuffers[(d.midiPitch + 12*j) + '_' + d.Solfa ];
+          // }
 
-          for (var j=0; j<3;j++) {
-            d.solfaBuffer[j] = audioBuffers[(d.midiPitch + 12*j) + '_' + d.Solfa ];
-          }
 					// d.playerSolfa =[];
           //
 					// for (var j=0; j<3;j++) {
@@ -240,4 +290,19 @@ setValues : function(position){
 
 function getMode(){
     mode = TkData.filter(function(m){return m.indices.includes(mod(position,84)) } )[0];
+}
+
+// WhiteScale = Scale.notes.filter(function(d){return d.type=="white"}) //Only need to run once.
+
+WhiteScaleLine =[]
+
+function makeWhiteScaleLine(N) {
+  for (var i=0; i<N; i++){
+    var obj = Object.assign({},WhiteScale[mod(i,7)])
+    obj.id = i;
+    obj.octave = Math.floor(i/7);
+    obj.midiPitch = obj.midiPitch + 12*Math.floor(i/7);
+    obj.solfaBuffer =  audioBuffers[obj.midiPitch + '_' + obj.Solfa ];
+    WhiteScaleLine.push(obj);
+  }
 }
