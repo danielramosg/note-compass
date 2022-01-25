@@ -13,11 +13,11 @@
 <script src="vendor/JZZ.input.Kbd.js"></script>
 
 <link rel="stylesheet" type="text/css" href="css/style.css">
+<link rel="stylesheet" type="text/css" href="css/modal.css">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
  <meta name="apple-mobile-web-app-capable" content="yes">
  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-
 
 <script src="js/compassData.js"></script>
 <script src="js/wheel.js"></script>
@@ -32,7 +32,7 @@
 <body>
 
 <div class="grid-container">
-  <div id="header">Note Compass</div>
+  <div id="header">Note Compass <span id="infoBtn">ⓘ</span></div>
   <div id="staff"></div>
   <div id="wheel" ></div>
   <div id="modeBox">
@@ -43,6 +43,28 @@
   <div id="piano"></div>
 </div>
 
+<div id="info" class="modal">
+<div class="modal-content">
+
+  <span class="close">&times;</span>
+  <h2>Note Compass</h2>
+  <p>Western music uses 12 notes on each octave. But on each piece of music, not all the notes are used equally, nor they play the same role. A mode is a particular selection of 7 of the 12 notes, together with an assignation of roles.</p>
+
+  <p>The 12-pointed star represents the 12 pitch-notes available. The background wheel shows the selection: a point of the star falling on a colored sector is part of the mode, if it falls in a grey sector, it is not.</p>
+
+  <p>There are three characteristics that designate a note:</p>
+
+  <ul>
+    <li>Latin note names (A,B,C,D,E,F,G) possibly with sharps and flats. This indicates the pitch height (the frequency) of each note. For instance, middle A is 440 Hz.
+    <li>Numerals/Role names, 1=Tonic, 2=Supertonic, 3=Mediant, ... This refers to their role in the scale. For instance, the Tonic note is the base of the composition, it usually starts and ends on this resting note. The Dominant gives power, the Leading ads tension, etc.
+    <li>Solfedge syllabes (do,re,mi,fa,so,la,ti). This refers to the position of the note within the scale. The minor steps (1 semitone) are always between mi-fa and ti-do.
+  </ul>
+
+  <p> Read more in the booklet of the La La Lab exhibition.</p>
+</div></div>
+
+
+<script src="js/modal.js"></script>
 <script src="js/main.js"></script>
 </body>
 
