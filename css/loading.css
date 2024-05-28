@@ -1,0 +1,12 @@
+#loadingBanner {
+  font-size: 150%;
+  font-weight: normal;
+  position: fixed; /* Stay in place */
+  padding-top: 200px;
+  text-align: center;
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  pointer-events: none;
+}
